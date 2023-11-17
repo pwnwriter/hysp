@@ -1,3 +1,3 @@
-pub fn check_integrity () {
+pub fn check_integrity() {
     println!("Hello from integrity");
 }
