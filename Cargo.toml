@@ -1,0 +1,37 @@
+[package]
+name = "seren"
+version = "0.1.0"
+edition = "2021"
+authors = [ "PwnWriter < hey@pwnwriter.xyz >" ]
+description = "📦 An independent package manager for the nix"
+readme = "README.md"
+repository = "https://github.com/bytehunt/seren"
+homepage = "https://github.com/bytehunt/seren.git"
+license = "MIT"
+keywords = ["recon", "red_teaming", "pentesting", "osint"]
+categories = ["accessibility", "web-programming", "command-line" ]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[profile.dev]
+opt-level = 0
+debug = true
+panic = "abort"
+
+[profile.test]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+debug = false
+panic = "unwind"
+lto = true
+codegen-units = 1
+
+[profile.bench]
+opt-level = 3
+debug = false
+
+
