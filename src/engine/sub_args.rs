@@ -6,6 +6,10 @@ pub struct InstallArgs {
     #[arg(short, long)]
     #[arg(required = true)]
     pub package: Option<String>,
+
+    #[arg(short, long)]
+    #[arg(required = true)]
+    pub verbose: bool,
 }
 
 #[derive(Args, Clone)]
