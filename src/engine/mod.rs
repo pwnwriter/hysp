@@ -1,6 +1,3 @@
-pub mod check;
-pub mod install;
-pub mod search;
-pub mod uninstall;
+pub mod data;
+pub use data::*;
 
-pub mod seren_helpers {}
