@@ -7,7 +7,7 @@ mod log;
 
 fn main() {
     let cli = Cli::parse();
-
+    
     match cli.command {
         engine::CommandChoice::Install(pkg_install_args) => {
             commands::install::download_pkgs(pkg_install_args)

@@ -24,9 +24,9 @@ pub fn show_splashes() -> String {
     let logo = format!(
         r#"
 
- ✮⋆˙┏┓┏┓┳┓┏┓┳┓ ✮⋆˙
+  ✮ ┏┓┏┓┳┓┏┓┳┓ ✮
     ┗┓┣ ┣┫┣ ┃┃
-    ┗┛┗┛┛┗┗┛┛┗ v{}
+    ┗┛┗┛┛┗┗┛┛┗ v{} 
               
     "#,
         app_version,
