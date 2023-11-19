@@ -5,7 +5,7 @@ pub struct InstallArgs {
     /// Name of the package to install
     #[arg(short, long)]
     #[arg(required = true)]
-    pub package: Option<String>,
+    pub package: String,
 
     #[arg(short, long)]
     #[arg(required = true)]
@@ -17,5 +17,5 @@ pub struct RemoveArgs {
     /// Name of the package to Uninstall
     #[arg(short, long)]
     #[arg(required = true)]
-    pub package: Option<String>,
+    pub package: String,
 }

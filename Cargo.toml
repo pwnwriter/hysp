@@ -18,9 +18,11 @@ clap = { version = "4.4.8", features = ["string", "derive"] }
 anyhow = "1.0.75"
 colored = "2.0.4"
 serde = { version = "1.0.192", features = ["derive"] }
+spinoff = { version = "0.7.0", features = ["dots", "arc", "line"] }
 toml = "0.8.8"
 lazy_static = "1.4.0"
 tokio = { version = "1.34.0", features = ["full"] }
+blake3 = "1.5.0"
 
 [profile.dev]
 opt-level = 0
