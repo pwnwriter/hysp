@@ -1,6 +1,5 @@
 use crate::engine::show_splashes;
-use crate::engine::sub_args::*;
-use clap::{Parser, Subcommand};
+use clap::{Args, Parser, Subcommand};
 
 /// The SEREN CLI.
 #[derive(Parser)]
@@ -24,4 +23,24 @@ pub enum CommandChoice {
     #[command(arg_required_else_help = true)]
     #[clap(name = "remove")]
     Remove(RemoveArgs),
+}
+
+#[derive(Args, Clone)]
+pub struct InstallArgs {
+    /// Name of the package to install
+    #[arg(short, long)]
+    #[arg(required = true)]
+    pub package: String,
+
+    #[arg(short, long)]
+    #[arg(required = true)]
+    pub verbose: bool,
+}
+
+#[derive(Args, Clone)]
+pub struct RemoveArgs {
+    /// Name of the package to Uninstall
+    #[arg(short, long)]
+    #[arg(required = true)]
+    pub package: String,
 }

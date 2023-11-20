@@ -1,21 +1,10 @@
-use crate::engine::args::Cli;
-use clap::Parser;
+pub mod commands;
+pub mod engine;
+pub mod log;
 
-mod commands;
-mod engine;
-mod log;
+mod init;
 
 #[tokio::main]
 async fn main() {
-    let cli = Cli::parse();
-
-    match cli.command {
-        engine::CommandChoice::Install(pkg_install_args) => {
-            commands::install::download_pkgs(pkg_install_args).await
-        }
-
-        engine::CommandChoice::Remove(pkg_uninstall_args) => {
-            commands::uninstall::remove_pkgs(pkg_uninstall_args)
-        }
-    };
+    init::start().await;
 }

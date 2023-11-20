@@ -1,4 +1,4 @@
-use crate::engine::package_information::PackageInfo;
+use crate::engine::pkg_info::PackageInfo;
 use anyhow::{anyhow, Result};
 use reqwest;
 use reqwest::StatusCode;
