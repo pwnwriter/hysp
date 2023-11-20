@@ -26,7 +26,7 @@ pub struct Conditions {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Metadata {
-    pub hash: Option<Vec<String>>,
+    pub hash: Option<String>,
     pub keywords: Option<Vec<String>>,
     pub categories: Option<Vec<String>>,
 }

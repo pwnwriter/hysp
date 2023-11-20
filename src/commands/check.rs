@@ -1,4 +1,12 @@
-#![allow(dead_code)]
-pub fn check_integrity(pkgname: &str) {
-    let hash = "57f8c02b16eefe47cc099336f43c3f5e491c34bd446c9b32f33c9da29adebd5d".to_string();
+use crate::engine::data_parser::fetch_and_process_toml;
+
+pub async fn check_integrity(pkgname: &str) {
+    if let Ok(toml_info) = fetch_and_process_toml(&pkgname).await {
+        if let Some(hash) = toml_info.package.metadata.hash {
+            println!("{:?}", hash);
+        }
+    } else {
+        // Handle the case where fetching and processing the TOML failed
+        println!("Failed to fetch and process TOML for {}", pkgname);
+    }
 }
