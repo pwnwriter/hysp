@@ -2,7 +2,7 @@ use crate::engine::pkg_info::PackageInfo;
 use anyhow::{anyhow, Result};
 use reqwest;
 use reqwest::StatusCode;
-use spinoff::{spinners, Color, Spinner};
+use spinoff::{spinners, Color, Spinner, Streams};
 
 fn build_package_toml_url(pkg_name: &str) -> String {
     let repo_url =
@@ -16,7 +16,12 @@ fn build_package_toml_url(pkg_name: &str) -> String {
 pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
     let pkg_toml_file_url = build_package_toml_url(pkg_name);
 
-    let _spinner = Spinner::new(spinners::Dots, "Fetching package info... ", Color::Green);
+    let spinner = Spinner::new_with_stream(
+        spinners::Line,
+        "Fetching package info ... ",
+        Color::Yellow,
+        Streams::Stderr,
+    );
 
     let response = reqwest::get(&pkg_toml_file_url)
         .await
@@ -27,6 +32,7 @@ pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
             let toml_text = response.text().await?;
             let parsed_toml: PackageInfo = toml::from_str(&toml_text)?;
             // dbg!("{}", &parsed_toml);
+            spinner.stop_and_persist("  ", "Done");
             Ok(parsed_toml)
         }
         _ => Err(anyhow!("No such package found")),
