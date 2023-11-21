@@ -1,8 +1,11 @@
+use crate::engine::dirs::*;
 use crate::engine::pkg_info::PackageInfo;
 use anyhow::{anyhow, Result};
 use reqwest;
 use reqwest::StatusCode;
 use spinoff::{spinners, Color, Spinner, Streams};
+use std::fs::File;
+use std::io::prelude::*;
 
 fn build_package_toml_url(pkg_name: &str) -> String {
     let repo_url =
@@ -32,6 +35,12 @@ pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
             let toml_text = response.text().await?;
             let parsed_toml: PackageInfo = toml::from_str(&toml_text)?;
             // dbg!("{}", &parsed_toml);
+            let file_name = format!("{}.toml", pkg_name);
+            let data_dir = &*SEREN_DATA_DIR;
+            let file_path = data_dir.join(&file_name);
+
+            let mut file = File::create(&file_path)?;
+            file.write_all(toml_text.as_bytes())?;
             spinner.stop_and_persist("  ", "Done");
             Ok(parsed_toml)
         }
