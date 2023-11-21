@@ -23,8 +23,8 @@ jobs:
           - { OS: ubuntu-latest, TARGET: "aarch64-unknown-linux-musl" }
           - { OS: macos-latest, TARGET: "x86_64-apple-darwin" }
           - { OS: macos-latest, TARGET: "aarch64-apple-darwin" }
-          - { OS: windows-latest, TARGET: "x86_64-pc-windows-msvc" }
-          - { OS: windows-latest, TARGET: "i686-pc-windows-msvc" }
+          # - { OS: windows-latest, TARGET: "x86_64-pc-windows-msvc" }
+          # - { OS: windows-latest, TARGET: "i686-pc-windows-msvc" }
 
     steps:
       - name: Checkout the repository
