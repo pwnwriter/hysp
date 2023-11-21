@@ -9,7 +9,7 @@ use std::io::prelude::*;
 
 pub fn build_package_toml_url(pkg_name: Option<&str>) -> String {
     let repo_url =
-        std::env::var("SEREN_REPO_URL").unwrap_or_else(|_| "metis-os/seren-pkgs".to_string());
+        std::env::var("SEREN_REPO_URL").unwrap_or_else(|_| "metis-os/hysp-pkgs".to_string());
 
     let available_url = format!(
         "https://raw.githubusercontent.com/{}/main/available.toml",
@@ -48,7 +48,7 @@ pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
             let parsed_toml: PackageInfo = toml::from_str(&toml_text)?;
             // dbg!("{}", &parsed_toml);
             let file_name = format!("{}.toml", pkg_name);
-            let data_dir = &*SEREN_DATA_DIR;
+            let data_dir = &*HYSP_DATA_DIR;
             let file_path = data_dir.join(file_name);
 
             let mut file = File::create(file_path)?;

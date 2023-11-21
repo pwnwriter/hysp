@@ -1,4 +1,4 @@
-use super::seren_helpers::RESET;
+use super::hysp_helpers::RESET;
 use crate::engine::parser::fetch_package_info;
 use crate::engine::{check_conflicts, check_dependencies, InstallArgs};
 use crate::engine::{dirs::*, print_package_info};
@@ -64,7 +64,7 @@ async fn download_binary(binary_url: String) -> Result<(), anyhow::Error> {
         .and_then(|segments| segments.last())
         .unwrap_or_default();
 
-    let file_path = SEREN_BIN_DIR.join(fname);
+    let file_path = HYSP_BIN_DIR.join(fname);
     let mut dest = File::create(&file_path)?;
 
     let content = response.bytes().await?;

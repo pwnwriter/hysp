@@ -1,6 +1,6 @@
 use crate::engine::InstallArgs;
 use crate::{
-    commands::seren_helpers::{ASCII, BAR},
+    commands::hysp_helpers::{ASCII, BAR},
     engine::parser::fetch_package_info,
 };
 use anyhow::Result;

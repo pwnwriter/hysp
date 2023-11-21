@@ -1,4 +1,4 @@
-use crate::commands::seren_helpers::{ASCII, BAR};
+use crate::commands::hysp_helpers::{ASCII, BAR};
 use crate::engine::pkg_info::available_packages::Available;
 use crate::engine::{parser::build_package_toml_url, SearchArgs};
 use anyhow::anyhow;

@@ -1,12 +1,12 @@
 [package]
-name = "seren"
+name = "hysp"
 version = "0.1.0"
 edition = "2021"
 authors = [ "PwnWriter < hey@pwnwriter.xyz >" ]
 description = "📦 An independent package manager for the nix"
 readme = "README.md"
-repository = "https://github.com/pwnwriter/seren"
-homepage = "https://github.com/pwnwriter/seren.git"
+repository = "https://github.com/pwnwriter/hysp"
+homepage = "https://github.com/pwnwriter/hysp.git"
 license = "MIT"
 keywords = ["package-manager", "ctf-tool-download", "pentesting", "pkgs"]
 categories = ["accessibility", "web-programming", "command-line" ]

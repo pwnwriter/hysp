@@ -15,9 +15,9 @@ pub fn get_xdg_path(key: &str, default: &str) -> PathBuf {
 }
 
 lazy_static! {
-    pub static ref SEREN_HOME_DIR: PathBuf = get_xdg_path("SEREN_HOME_DIR", "seren");
-    pub static ref SEREN_BIN_DIR: PathBuf = get_xdg_path("SEREN_BIN_DIR", "seren/bin");
-    pub static ref SEREN_DATA_DIR: PathBuf = get_xdg_path("SEREN_DATA_DIR", "seren/data");
+    pub static ref HYSP_HOME_DIR: PathBuf = get_xdg_path("HYSP_HOME_DIR", "hysp");
+    pub static ref HYSP_BIN_DIR: PathBuf = get_xdg_path(" HYSP_BIN_DIR", "hysp/bin");
+    pub static ref HYSP_DATA_DIR: PathBuf = get_xdg_path("HYSP_DATA_DIR", "hysp/data");
 }
 
 #[cfg(test)]
@@ -37,26 +37,26 @@ mod tests {
     }
 
     #[test]
-    fn test_seren_home_dir() {
+    fn test_hysp_home_dir() {
         assert!(
-            check_path(&SEREN_HOME_DIR).is_ok(),
-            "SEREN_HOME_DIR does not exist or is not an absolute path"
+            check_path(&HYSP_HOME_DIR).is_ok(),
+            "HYSP_HOME_DIR does not exist or is not an absolute path"
         );
     }
 
     #[test]
-    fn test_seren_bin_dir() {
+    fn test_hysp_bin_dir() {
         assert!(
-            check_path(&SEREN_BIN_DIR).is_ok(),
-            "SEREN_BIN_DIR does not exist or is not an absolute path"
+            check_path(&HYSP_BIN_DIR).is_ok(),
+            "HYSP_BIN_DIR does not exist or is not an absolute path"
         );
     }
 
     #[test]
-    fn test_seren_data_dir() {
+    fn test_hysp_data_dir() {
         assert!(
-            check_path(&SEREN_DATA_DIR).is_ok(),
-            "SEREN_DATA_DIR does not exist or is not an absolute path"
+            check_path(&HYSP_DATA_DIR).is_ok(),
+            "HYSP_DATA_DIR does not exist or is not an absolute path"
         );
     }
 }

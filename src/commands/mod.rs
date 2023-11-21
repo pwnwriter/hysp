@@ -2,7 +2,7 @@ pub mod install;
 pub mod search;
 pub mod uninstall;
 
-pub mod seren_helpers {
+pub mod hysp_helpers {
 
     use tokio::fs::File;
     use tokio::io::AsyncReadExt;

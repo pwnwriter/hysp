@@ -422,6 +422,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "hysp"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "colored",
+ "columns",
+ "lazy_static",
+ "reqwest",
+ "serde",
+ "spinoff",
+ "tokio",
+ "toml",
+]
+
+[[package]]
 name = "idna"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -814,22 +830,6 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "seren"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "colored",
- "columns",
- "lazy_static",
- "reqwest",
- "serde",
- "spinoff",
- "tokio",
- "toml",
 ]
 
 [[package]]
