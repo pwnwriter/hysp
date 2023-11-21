@@ -15,7 +15,7 @@ pub async fn fetch_available(search_args: SearchArgs) -> Result<(), anyhow::Erro
 pub async fn parse_available_toml(pkg_name: &str) -> Result<(), anyhow::Error> {
     let available_toml_url = build_package_toml_url(None);
 
-    let spinner = Spinner::new_with_stream(
+    let mut spinner = Spinner::new_with_stream(
         spinners::Line,
         "Fetching available packages info ... ",
         Color::Yellow,

@@ -31,7 +31,7 @@ pub fn build_package_toml_url(pkg_name: Option<&str>) -> String {
 pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
     let pkg_toml_file_url = build_package_toml_url(Some(pkg_name));
 
-    let spinner = Spinner::new_with_stream(
+    let mut spinner = Spinner::new_with_stream(
         spinners::Line,
         "Fetching package info ... ",
         Color::Yellow,

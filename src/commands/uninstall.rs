@@ -30,7 +30,7 @@ pub async fn get_local_toml(pkgname: &str) -> Result<PackageInfo, anyhow::Error>
 }
 
 fn remove_binary_file(binary_name: &str) -> Result<(), anyhow::Error> {
-    let spinner_01 = Spinner::new_with_stream(
+    let mut spinner_01 = Spinner::new_with_stream(
         spinners::Arc,
         "Removing package binary and data  ...",
         Color::Yellow,

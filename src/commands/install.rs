@@ -51,7 +51,7 @@ pub async fn download_pkgs(install_pkgs: InstallArgs) -> Result<(), anyhow::Erro
 }
 
 async fn download_binary(binary_url: String) -> Result<(), anyhow::Error> {
-    let spinner_01 = Spinner::new_with_stream(
+    let mut spinner_01 = Spinner::new_with_stream(
         spinners::Arc,
         "Downloading binary please wait ...",
         Color::Yellow,
@@ -71,7 +71,7 @@ async fn download_binary(binary_url: String) -> Result<(), anyhow::Error> {
     copy(&mut content.as_ref(), &mut dest)?;
     spinner_01.stop_and_persist("  ", "Done");
 
-    let spinner = Spinner::new_with_stream(
+    let mut spinner = Spinner::new_with_stream(
         spinners::Line,
         "Setting up file permissions  ...",
         Color::Green,

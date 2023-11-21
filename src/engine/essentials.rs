@@ -14,7 +14,7 @@ pub async fn check_conflicts(install_pkgs: InstallArgs) -> Result<()> {
 
     let toml_info = fetch_package_info(pkgname).await?;
     if let Some(conflicts) = toml_info.package.conditions.and_then(|c| c.conflicts) {
-        let spinner = Spinner::new_with_stream(
+        let mut spinner = Spinner::new_with_stream(
             spinners::Line,
             "Checking for conflicts ...",
             Color::Blue,
@@ -39,7 +39,7 @@ pub async fn check_dependencies(install_pkgs: &InstallArgs) -> Result<()> {
 
     let toml_info = fetch_package_info(pkgname).await?;
     if let Some(dependencies) = toml_info.package.conditions.and_then(|c| c.dependencies) {
-        let spinner = Spinner::new_with_stream(
+        let mut spinner = Spinner::new_with_stream(
             spinners::Line,
             "Checking for dependencies  ...",
             Color::Green,
