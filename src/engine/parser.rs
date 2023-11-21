@@ -7,17 +7,29 @@ use spinoff::{spinners, Color, Spinner, Streams};
 use std::fs::File;
 use std::io::prelude::*;
 
-fn build_package_toml_url(pkg_name: &str) -> String {
+pub fn build_package_toml_url(pkg_name: Option<&str>) -> String {
     let repo_url =
-        std::env::var("SEREN_REPO_URL").unwrap_or_else(|_| "bytehunt/seren-pkgs".to_string());
-    format!(
-        "https://raw.githubusercontent.com/{}/main/data/{}.toml",
-        repo_url, pkg_name
-    )
+        std::env::var("SEREN_REPO_URL").unwrap_or_else(|_| "metis-os/seren-pkgs".to_string());
+
+    let available_url = format!(
+        "https://raw.githubusercontent.com/{}/main/available.toml",
+        repo_url
+    );
+
+    if let Some(pkg) = pkg_name {
+        if !pkg.is_empty() {
+            return format!(
+                "https://raw.githubusercontent.com/{}/main/data/{}.toml",
+                repo_url, pkg
+            );
+        }
+    }
+
+    available_url
 }
 
 pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
-    let pkg_toml_file_url = build_package_toml_url(pkg_name);
+    let pkg_toml_file_url = build_package_toml_url(Some(pkg_name));
 
     let spinner = Spinner::new_with_stream(
         spinners::Line,
@@ -37,9 +49,9 @@ pub async fn fetch_package_info(pkg_name: &str) -> Result<PackageInfo> {
             // dbg!("{}", &parsed_toml);
             let file_name = format!("{}.toml", pkg_name);
             let data_dir = &*SEREN_DATA_DIR;
-            let file_path = data_dir.join(&file_name);
+            let file_path = data_dir.join(file_name);
 
-            let mut file = File::create(&file_path)?;
+            let mut file = File::create(file_path)?;
             file.write_all(toml_text.as_bytes())?;
             spinner.stop_and_persist("  ", "Done");
             Ok(parsed_toml)

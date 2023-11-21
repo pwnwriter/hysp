@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+// * Particular packages *//
+
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PackageInfo {
     pub package: Package,
@@ -14,6 +16,7 @@ pub struct Package {
     pub version: String,
     pub description: String,
     pub license: String,
+    pub size: String,
     pub conditions: Option<Conditions>,
     pub metadata: Metadata,
 }
@@ -45,4 +48,26 @@ pub struct Source {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Bin {
     pub name: String,
+}
+
+//  *  Whole available packages *//
+pub mod available_packages {
+    use serde::{Deserialize, Serialize};
+
+    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+    pub struct Available {
+        pub packages: Vec<Packagefields>,
+    }
+
+    #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+    pub struct Packagefields {
+        pub name: String,
+        pub binary_size: String,
+        pub maintainer: String,
+        pub email: String,
+        pub description: String,
+        pub version: String,
+        pub homepage: String,
+        pub license: String,
+    }
 }

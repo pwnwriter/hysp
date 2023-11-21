@@ -10,6 +10,10 @@ pub async fn start() {
         crate::engine::CommandChoice::Remove(pkg_uninstall_args) => {
             crate::commands::uninstall::remove_pkgs(pkg_uninstall_args).await
         }
+
+        crate::engine::CommandChoice::Search(pkg_search_args) => {
+            crate::commands::search::fetch_available(pkg_search_args).await
+        }
     };
 
     if let Err(err) = result {

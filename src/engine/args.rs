@@ -23,6 +23,11 @@ pub enum CommandChoice {
     #[command(arg_required_else_help = true)]
     #[clap(name = "remove")]
     Remove(RemoveArgs),
+
+    /// Search a package
+    #[command(arg_required_else_help = true)]
+    #[clap(name = "search")]
+    Search(SearchArgs),
 }
 
 #[derive(Args, Clone)]
@@ -31,6 +36,11 @@ pub struct InstallArgs {
     #[arg(short, long)]
     #[arg(required = true)]
     pub package: String,
+
+    /// Strip down the console output
+    #[arg(long)]
+    #[arg(required = false)]
+    pub silent: bool,
 }
 
 #[derive(Args, Clone)]
@@ -39,4 +49,22 @@ pub struct RemoveArgs {
     #[arg(short, long)]
     #[arg(required = true)]
     pub package: String,
+
+    /// Strip down the console output
+    #[arg(long)]
+    #[arg(required = false)]
+    pub silent: bool,
+}
+
+#[derive(Args, Clone)]
+pub struct SearchArgs {
+    /// Name of the package to search
+    #[arg(short, long)]
+    #[arg(required = true)]
+    pub package: String,
+
+    /// Strip down the console output
+    #[arg(long)]
+    #[arg(required = false)]
+    pub silent: bool,
 }

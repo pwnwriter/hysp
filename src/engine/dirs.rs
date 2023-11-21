@@ -15,9 +15,9 @@ pub fn get_xdg_path(key: &str, default: &str) -> PathBuf {
 }
 
 lazy_static! {
-    pub static ref SEREN_HOME_DIR: PathBuf = get_xdg_path("SEREN_HOME_DIR", "seren/");
-    pub static ref SEREN_BIN_DIR: PathBuf = get_xdg_path("SEREN_BIN_DIR", "seren/bin/");
-    pub static ref SEREN_DATA_DIR: PathBuf = get_xdg_path("SEREN_DATA_DIR", "seren/data/");
+    pub static ref SEREN_HOME_DIR: PathBuf = get_xdg_path("SEREN_HOME_DIR", "seren");
+    pub static ref SEREN_BIN_DIR: PathBuf = get_xdg_path("SEREN_BIN_DIR", "seren/bin");
+    pub static ref SEREN_DATA_DIR: PathBuf = get_xdg_path("SEREN_DATA_DIR", "seren/data");
 }
 
 #[cfg(test)]

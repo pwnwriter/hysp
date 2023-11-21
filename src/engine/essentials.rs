@@ -1,6 +1,11 @@
-use crate::engine::parser::fetch_package_info;
 use crate::engine::InstallArgs;
+use crate::{
+    commands::seren_helpers::{ASCII, BAR},
+    engine::parser::fetch_package_info,
+};
 use anyhow::Result;
+use colored::Colorize;
+use columns::Columns;
 use spinoff::{spinners, Color, Spinner, Streams};
 use std::process::Command;
 
@@ -52,22 +57,34 @@ pub async fn check_dependencies(install_pkgs: &InstallArgs) -> Result<()> {
     Ok(())
 }
 
-// pub async fn print_maintainer_info(pkgname: &str) -> Result<()> {
-//     let toml_info = fetch_package_info(pkgname).await?;
-//
-//     if let Some(maintainer) = toml_info.maintainer {
-//         println!("Maintainer Name: {}", maintainer.name);
-//         println!("Maintainer Email: {}", maintainer.email);
-//         if let Some(link) = maintainer.link {
-//             println!("Maintainer Link: {}", link);
-//         }
-//         // Add more fields if needed
-//     } else {
-//         println!("No maintainer information found for {}", pkgname);
-//     }
-//
-//     Ok(())
-// }
+pub async fn print_package_info(pkgname: &str) -> Result<()> {
+    let toml_info = fetch_package_info(pkgname).await?;
+
+    let main_tainer = toml_info.maintainer.name.purple();
+    let main_tainer_email = toml_info.maintainer.email.green();
+    let pkg_version = toml_info.package.version.cyan();
+    let pkg_desc = toml_info.package.description.bold();
+    let pkg_license = toml_info.package.license.yellow();
+    let pkg_size = toml_info.package.size.yellow();
+
+    let package_information = Columns::from(vec![
+        format!("{ASCII}").split('\n').collect::<Vec<&str>>(),
+        vec![
+            &format!("Package: {pkgname}"),
+            &format!("Version: {pkg_version}"),
+            &format!("Maintainer: {main_tainer}"),
+            &format!("Email: {main_tainer_email}"),
+            &format!("Size: {pkg_size}"),
+            &format!("Desc: {pkg_desc}"),
+            &format!("License: {pkg_license}"),
+        ],
+    ])
+    .set_tabsize(15)
+    .make_columns();
+    println!("{}", package_information);
+    println!("{}", BAR);
+    Ok(())
+}
 
 fn is_pkg_installed(pkg_name: &str) -> bool {
     let output = Command::new("which")
