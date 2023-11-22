@@ -42,7 +42,7 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
   <details> <summary><code>🪄 Binary </code></summary>
     &nbsp;
 
-  - You can directly download the [**binary**](https://github.com/pwnwriter/haylxon/releases) of your arch and run it.
+  - You can directly download the [**binary**](https://github.com/pwnwriter/hysp/releases) of your arch and run it.
   
   </details>
   <details> <summary><code>🌼 Source </code></summary>
@@ -58,7 +58,7 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 <details> <summary><code>🎠 Cargo </code></summary>
 
-- Using [crates.io](https://crates.io/crates/haylxon)
+- Using [crates.io](https://crates.io/crates/hysp)
   ```bash
   cargo install hysp
   ```
