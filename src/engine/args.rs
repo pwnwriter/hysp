@@ -1,7 +1,7 @@
 use crate::engine::show_splashes;
 use clap::{Args, Parser, Subcommand};
 
-/// The SEREN CLI.
+/// The HYSP CLI.
 #[derive(Parser)]
 #[command(author, version, about = show_splashes(), long_about = show_splashes())]
 #[command(propagate_version = true)]
@@ -23,6 +23,10 @@ pub enum CommandChoice {
     #[command(arg_required_else_help = true)]
     #[clap(name = "remove")]
     Remove(RemoveArgs),
+
+    /// List installed pkgs
+    #[clap(name = "list")]
+    List,
 
     /// Search a package
     #[command(arg_required_else_help = true)]

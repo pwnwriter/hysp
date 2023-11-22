@@ -13,17 +13,16 @@ pub async fn check_conflicts(install_pkgs: InstallArgs) -> Result<()> {
     let pkgname = &install_pkgs.package;
 
     let toml_info = fetch_package_info(pkgname).await?;
+    let mut spinner_02 = Spinner::new_with_stream(
+        spinners::Runner,
+        "Checking for conflicts ...",
+        Color::Blue,
+        Streams::Stderr,
+    );
     if let Some(conflicts) = toml_info.package.conditions.and_then(|c| c.conflicts) {
-        let mut spinner = Spinner::new_with_stream(
-            spinners::Line,
-            "Checking for conflicts ...",
-            Color::Blue,
-            Streams::Stderr,
-        );
-
         for conflict_pkg in conflicts {
+            spinner_02.stop_and_persist("  ", "Done");
             if is_pkg_installed(&conflict_pkg) {
-                spinner.stop_and_persist("  ", "Done");
                 return Err(anyhow::Error::msg(format!(
                     "Confliction detected aborting .. {conflict_pkg}"
                 )));
@@ -39,7 +38,7 @@ pub async fn check_dependencies(install_pkgs: &InstallArgs) -> Result<()> {
 
     let toml_info = fetch_package_info(pkgname).await?;
     if let Some(dependencies) = toml_info.package.conditions.and_then(|c| c.dependencies) {
-        let mut spinner = Spinner::new_with_stream(
+        let mut spinner_04 = Spinner::new_with_stream(
             spinners::Line,
             "Checking for dependencies  ...",
             Color::Green,
@@ -48,7 +47,7 @@ pub async fn check_dependencies(install_pkgs: &InstallArgs) -> Result<()> {
 
         for dependency_pkg in dependencies {
             if !is_pkg_installed(&dependency_pkg) {
-                spinner.stop_and_persist("  ", "Done");
+                spinner_04.stop_and_persist("  ", "Done");
                 return Err(anyhow::anyhow!("Dependency '{}' not found", dependency_pkg));
             }
         }

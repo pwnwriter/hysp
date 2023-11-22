@@ -1,23 +1,37 @@
-use lazy_static::lazy_static;
 use std::env;
+use std::fs;
 use std::path::PathBuf;
 
-pub fn get_xdg_path(key: &str, default: &str) -> PathBuf {
-    match env::var(key) {
-        Ok(val) => PathBuf::from(val),
-        Err(_) => {
-            let xdg_home = env::var("XDG_DATA_HOME").unwrap_or_else(|_| {
-                format!("{}/.local/share", env::var("HOME").unwrap_or_default())
-            });
-            PathBuf::from(format!("{}/{}", xdg_home, default))
-        }
-    }
+lazy_static::lazy_static! {
+    pub static ref HYSP_HOME_DIR: PathBuf = {
+        let hysp_home = match env::var("HYSP_HOME_DIR") {
+            Ok(val) => PathBuf::from(val),
+            Err(_) => {
+                let xdg_home = env::var("XDG_DATA_HOME").unwrap_or_else(|_| {
+                    format!("{}/.local/share", env::var("HOME").unwrap_or_default())
+                });
+                PathBuf::from(format!("{}/{}", xdg_home, "hysp"))
+            }
+        };
+        create_if_not_exists(&hysp_home);
+        hysp_home
+    };
+    pub static ref HYSP_BIN_DIR: PathBuf = {
+        let bin_dir = HYSP_HOME_DIR.join("bin");
+        create_if_not_exists(&bin_dir);
+        bin_dir
+    };
+    pub static ref HYSP_DATA_DIR: PathBuf = {
+        let data_dir = HYSP_HOME_DIR.join("data");
+        create_if_not_exists(&data_dir);
+        data_dir
+    };
 }
 
-lazy_static! {
-    pub static ref HYSP_HOME_DIR: PathBuf = get_xdg_path("HYSP_HOME_DIR", "hysp");
-    pub static ref HYSP_BIN_DIR: PathBuf = get_xdg_path(" HYSP_BIN_DIR", "hysp/bin");
-    pub static ref HYSP_DATA_DIR: PathBuf = get_xdg_path("HYSP_DATA_DIR", "hysp/data");
+fn create_if_not_exists(dir: &PathBuf) {
+    if let Err(_) = fs::create_dir_all(&dir) {
+        println!("Failed to create directory: {:?}", dir);
+    }
 }
 
 #[cfg(test)]
