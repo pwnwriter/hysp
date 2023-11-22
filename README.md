@@ -125,13 +125,24 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 <a name="repo"></a>
  ## Hosting custom repo 💾
 
- - Hysp provies the following envirovnment variables
 
-Variable          | Description                                      
-------------------|--------------------------------------------------
-`HYSP_REPO_URL`   | Package repository ***default: [`metis-os/hysp-pkgs`](https://github.com/metis-os/hysp-pkgs)***                         
-`HYSP_BIN_DIR`    | Directory to save the binaries ***default: `~/.local/share/hysp/bin`***       
-`HYSP_DATA_DIR`   | Directory to save pkg data ***default: `~/.local/share/hysp/data`***                          
+<details> <summary><code> Setup path for hysp bin🎡  </code></summary>
+    
+-  Add hysp binaries to `$PATH` for ease access over the system
+
+    ```bash
+    export PATH="$PATH:${$(find ~/.local/share/hysp/bin -type d -printf %p:)%%:}"
+    ```
+</details>
+
+- Hysp provies the following envirovnment variables
+
+| Variable        | Description                        | Default                                            |
+|-----------------|------------------------------------|----------------------------------------------------|
+| `HYSP_REPO_URL` | Package repository                 | [***`metis-os/hysp-pkgs`***](https://github.com/metis-os/hysp-pkgs) |
+| `HYSP_BIN_DIR`  | Directory to save the binaries     | ***`~/.local/share/hysp/bin`***            |
+| `HYSP_HOME_DIR` | Home for `hysp`                    | ***`hysp`***                               |
+| `HYSP_DATA_DIR` | Directory to save pkg data         | ***`~/.local/share/hysp/data`***           |
 
 <details> <summary><code>🎄 Tree view of the repo </code></summary>
 &nbsp;
@@ -191,13 +202,15 @@ categories = ["Utilities", "Development"] # Needed
  ## Packages whuat?? 📦
 
 Yeah, I agree that currently, there are very few packages available, easily countable by hand. Therefore, contributions are more than welcome.
-Either to the [`packages`](https://github.com/metis-os/hysp-pkgs) for your package or here the [`core app`](/) for the app itself. If you see anything that can be improved... Just create an [`issue`](https://github.com/pwnwriter/hysp/issues) // [`pr`](https://github.com/pwnwriter/hysp/pulls) :V
+Either to the [`packages`](https://github.com/metis-os/hysp-pkgs) for your package or here the [`core app`](/) itself. If you see anything that can be improved... Just create an [`issue`](https://github.com/pwnwriter/hysp/issues) // [`pr`](https://github.com/pwnwriter/hysp/pulls) :V
 
 <a name="license"></a>
  ## License ㊙️
 
- Everything is license under the [`MIT`](/license) except for the packages... They carry their own livess :oOO
+ Everything is license under the [`MIT`](https://raw.githubusercontent.com/pwnwriter/hysp/main/LICENSE) except for the packages... 
+ They hold their own livess :oOO
 
+<p align="center"><img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" /></p>
 <p align="center">Copyright &copy; 2023<a href="https://pwnwriter.xyz" target="_blank"> pwnwriter xyz </a> ☘️</p> 
 
 
