@@ -17,16 +17,22 @@
     - Read pkg repo from env 
             
         ```bash
-        $ SEREN_REPO_URL
+        $ HYSP_REPO_URL
+        ```
+
+    - Home directory of hysp
+            
+        ```bash
+        $ HYSP_HOME_DIR
         ```
 
     - Read pkg binary store location from env
 
         ```bash
-        $ SEREN_BIN_DIR
+        $ HYSP_BIN_DIR
         ```
     - Read data directory
 
         ```bash
-        $ SEREN_DATA_DIR
+        $ HYSP_DATA_DIR
         ```
