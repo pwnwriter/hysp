@@ -59,12 +59,36 @@ pub async fn check_dependencies(install_pkgs: &InstallArgs) -> Result<()> {
 pub async fn print_package_info(pkgname: &str) -> Result<()> {
     let toml_info = fetch_package_info(pkgname).await?;
 
-    let main_tainer = toml_info.maintainer.name.purple();
-    let main_tainer_email = toml_info.maintainer.email.green();
-    let pkg_version = toml_info.package.version.cyan();
-    let pkg_desc = toml_info.package.description.bold();
-    let pkg_license = toml_info.package.license.yellow();
-    let pkg_size = toml_info.package.size.yellow();
+    let main_tainer = toml_info
+        .maintainer
+        .name
+        .unwrap_or_else(|| "Bot".to_string())
+        .purple();
+    let main_tainer_email = toml_info
+        .maintainer
+        .email
+        .unwrap_or_else(|| "bot@hysp-noreply".to_string())
+        .green();
+    let pkg_version = toml_info
+        .package
+        .version
+        .unwrap_or_else(|| "Latest".to_string())
+        .cyan();
+    let pkg_desc = toml_info
+        .package
+        .description
+        .unwrap_or_else(|| "No desc provided".to_string())
+        .bold();
+    let pkg_license = toml_info
+        .package
+        .license
+        .unwrap_or_else(|| "No license found".to_string())
+        .yellow();
+    let pkg_size = toml_info
+        .package
+        .size
+        .unwrap_or_else(|| "Couldn't get size".to_string())
+        .yellow();
 
     let package_information = Columns::from(vec![
         format!("{ASCII}").split('\n').collect::<Vec<&str>>(),
