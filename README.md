@@ -93,23 +93,24 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 <a name="usages"></a>
  ## Hysp usages 🎠
-<details> <summary><code> Help menu🐤 </code></summary>
+<details> <summary><code>🐤 Help menu</code></summary>
   &nbsp;
   
   
   ```bash
   hysp |install|uninstall|search| -h # check for help menu
   ```
-  ![screenshot_2023-11-21_23-01-39](https://github.com/pwnwriter/hysp/assets/90331517/b10a4832-a8cc-4017-98d2-019c048a0f95)
+![screenshot_2023-11-25_22-37-02](https://github.com/pwnwriter/hysp/assets/90331517/48e6d5be-3174-4aef-8d5e-a9c02c58aaf4)
+
 </details>
 
 <details> <summary><code>🔻 Installing a pkg </code></summary>
 &nbsp;
   
   ```bash
-  hysp install -p <pkg> # Use --silent to supress console output
+  hysp install -p <pkg> # use --force to overwrite already installed binary 
   ```
-![screenshot_2023-11-21_23-02-55](https://github.com/pwnwriter/hysp/assets/90331517/ef4577b3-de8b-4992-b24c-8552eb20ed05)
+  ![screenshot_2023-11-25_22-38-24](https://github.com/pwnwriter/hysp/assets/90331517/f55756b6-b115-4bdf-859f-330f1805c169)
 
 </details>
 
@@ -118,8 +119,11 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 &nbsp;
   
   ```bash
-  hysp remove -p <pkg> # Use --silent to supress console output
+  hysp remove -p <pkg> 
   ```
+
+![screenshot_2023-11-25_22-41-38](https://github.com/pwnwriter/hysp/assets/90331517/20f1293b-aa1e-4fd3-9cf8-11c3a197606a)
+
 </details>
 
 
