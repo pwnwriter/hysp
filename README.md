@@ -26,6 +26,7 @@
 * [`Hysp usages`](#usages)
 * [`Hosting custom repo`](#repo)
 * [`Packages`](#pkgs)
+* [`Support`](#support)
 * [`License`](#license)
 
 <a name="why"></a>
@@ -33,7 +34,7 @@
 
 I am a ***CTF player*** who often finds myself without my main laptop in places that lack the tools I need. Some distros don't carry the packages I require and some doesn't keep them updated. That's why I created my own package manager :). It fetches tool binaries easily, ensuring I always have what I need to compete.
 
-<sup><sub>dont touch my shrug</sub></sup>
+<sup><sub>Dont touch my shrug</sub></sup>
 
 
 <a name="installation"></a>
@@ -135,26 +136,38 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
     ```
 </details>
 
-- Hysp provies the following envirovnment variables
+- Hysp provies the following configuration, which can be overwritten by defining a `config file`.
+  Default config
 
-| Variable        | Description                        | Default                                            |
-|-----------------|------------------------------------|----------------------------------------------------|
-| `HYSP_REPO_URL` | Package repository                 | [***`metis-os/hysp-pkgs`***](https://github.com/metis-os/hysp-pkgs) |
-| `HYSP_BIN_DIR`  | Directory to save the binaries     | ***`~/.local/share/hysp/bin`***            |
-| `HYSP_HOME_DIR` | Home for `hysp`                    | ***`hysp`***                               |
-| `HYSP_DATA_DIR` | Directory to save pkg data         | ***`~/.local/share/hysp/data`***           |
+  ```toml
+    [source]
+    remote = "https://raw.githubusercontent.com/metis-os/hysp-pkgs/main/data/"
+    aarch = "Architecture"
+
+    [local]
+    home="/home/user/.local/share/hysp"
+    bin="/home/user/.local/share/hysp/bin/" 
+    data="/home/user/.local/share/hysp/data/Architecture/" 
+  ```
+- Explanation 
+
+|  Name       | Description                        | Default                                            |
+|-------------|------------------------------------|----------------------------------------------------|
+|  `remote`   | Package repository                 | [***`metis-os/hysp-pkgs`***](https://github.com/metis-os/hysp-pkgs) |
+|  `home`     | Home for `hysp`                    | ***`hysp`***                               |
+|  `bin`      | Directory to save the binaries     | ***`~/.local/share/hysp/bin`***            |
+|  `data`     | Directory to save pkg data         | ***`~/.local/share/hysp/data`***           |
+|  `aarch`    | Your system Architecture           | Only supported ***`X86_64,aarch64`***      |
 
 <details> <summary><code>🎄 Tree view of the repo </code></summary>
 &nbsp;
 
   ```bash
-
-├── available.toml ## all pkgs info are stored here
+.
+├── available.toml # Storing available pkgs info (Optional)
 ├── data
-│   ├── foo.toml ## specific pkg information are stored here 
-├── LICENSE
-└── pkgs
-    ├── foo ## pkgs binary are stored here
+│   └── x86_64 # Your cpu Architecture (aarch64 and x86_64) supported for now
+│       └── foo.toml # where the package data are stored (needed)
 ```
 
 </details>
@@ -166,50 +179,51 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 &nbsp;
 
   ```bash
-[package]
-name = "foo"
-version = "x.y.z"
-description = "A sample package for demonstration purposes"
-license = "bar"
-size = "x.yM"
-
-[maintainer]
-name = "foo " #Maintainer infos
-email = "foo@bar.com"
-
-[source]
-url = "https://github.com/metis-os/hysp-pkgs/raw/main/pkgs/foo" # Binary url
-
 [bin]
-name = "foo"  # Name of the binary executable
+name = "$BIN" # Name of the pkg to be installed as
+
+[package]
+architecture = "x86_64" # Your aarchitecture 
+name = "$BIN" # Your package name
+description = "$DESCRIPTION" # Description
+author = "$AUTHOR" # Author 
+repo = "$REPO_URL" 
+stars = "${STARS}"
+version = "$PKG_VERSION"
+updated = "$PKG_RELEASED"
+size = "$SIZE"
+sha = "$SHA" 
+source = "$SOURCE_URL" # Source of the binary wherever it's hosted
+language = "$LANGUAGE"
+license = "$LICENSE"
 
 [package.conditions]
-conflicts  = [ "foo"  ] # Example conflict entry
-dependencies = [ "foo" ]  # Example dependency entry
+conflicts  = ["$BIN"] # Conflictions 
+requires = [] # Dependencies 
 
 [package.metadata]
-hash = "57f8c02b16eefe47cc099336f43c3f5e491c34bd446c9b32f33c9da29adebd5d" # Optional b3sum (Yet to implement hash checking)
-keywords = ["sample", "demonstration", "rust"] # Optional
-categories = ["Utilities", "Development"] # Needed
-
+keywords = $TOPICS
+categories = ["Utilities"]
   ```
 
 </details>
 
-> Note: 🗒️ Once you create a package you must fill the `available.toml`. [`hysp`](/) uses that file to track the packages.
-
 <a name="pkgs"></a>
  ## Packages whuat?? 📦
+There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github.com/metis-os/hysp-pkgs) . You can confidently utilize the default configuration without any hesitation. However, if you prefer to host your own packages, you have the option to do so by creating your own custom configuration file under ***`~/.config/hysp/config.toml`***. 
 
-Yeah, I agree that currently, there are very few packages available, easily countable by hand. Therefore, contributions are more than welcome.
-Either to the [`packages`](https://github.com/metis-os/hysp-pkgs) for your package or here the [`core app`](/) itself. If you see anything that can be improved... Just create an [`issue`](https://github.com/pwnwriter/hysp/issues) // [`pr`](https://github.com/pwnwriter/hysp/pulls) :V
+
+<a name="support"></a>
+ ## Support 💌
+
+ I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***).  I'll appreciate that :)
 
 <a name="license"></a>
  ## License ㊙️
 
  Everything is license under the [`MIT`](https://raw.githubusercontent.com/pwnwriter/hysp/main/LICENSE) except for the packages... 
  They hold their own livess :oOO
-
+ 
 <p align="center"><img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" /></p>
 <p align="center">Copyright &copy; 2023<a href="https://pwnwriter.xyz" target="_blank"> pwnwriter xyz </a> ☘️</p> 
 
