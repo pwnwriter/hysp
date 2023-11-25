@@ -1,29 +1,53 @@
-use crate::engine::dirs;
+use crate::engine::config::read_config;
+use crate::{commands::remove::remove_trailing_slash, log::info};
+use anyhow::{anyhow, Result};
 use std::fs;
-use std::io;
-use std::path::Path;
-use std::sync::Arc;
 
-pub fn print_installed_pkgs() -> Result<(), anyhow::Error> {
-    let installed_pkgs = get_installed_pkgs()?;
-    for pkg in installed_pkgs.iter() {
-        println!("{}", pkg);
+pub async fn list_pkgs() -> Result<()> {
+    let hysp_config = read_config().await?;
+
+    let hysp_bin_dir = remove_trailing_slash(
+        hysp_config
+            .local
+            .bin
+            .ok_or_else(|| anyhow!("Couldn't get binary directory"))?
+            .to_string_lossy()
+            .to_string(),
+    );
+
+    match list_files_in_directory(&hysp_bin_dir) {
+        Ok(files) => {
+            info(
+                &format!("Installed pkgs in: {} ", hysp_bin_dir),
+                colored::Color::Cyan,
+            );
+            for file in &files {
+                println!("{}", file);
+            }
+        }
+        Err(err) => {
+            eprintln!("Error listing files in {}: {}", hysp_bin_dir, err);
+        }
     }
+
     Ok(())
 }
 
-fn get_installed_pkgs() -> Result<Arc<Vec<String>>, io::Error> {
-    let bin_dir: &Path = dirs::HYSP_BIN_DIR.as_ref();
-    let mut binaries = Vec::new();
+pub fn list_files_in_directory(directory: &str) -> Result<Vec<String>, std::io::Error> {
+    let entries = match fs::read_dir(directory) {
+        Ok(entries) => entries,
+        Err(e) => return Err(e),
+    };
 
-    if let Ok(entries) = fs::read_dir(bin_dir) {
-        for entry in entries {
-            if let Ok(entry) = entry {
-                if let Some(file_name) = entry.file_name().to_str() {
-                    binaries.push(file_name.to_string());
-                }
+    let mut files = Vec::new();
+
+    for entry in entries {
+        if let Ok(entry) = entry {
+            if let Some(file_name) = entry.file_name().into_string().ok() {
+                files.push(file_name);
             }
         }
     }
-    Ok(Arc::new(binaries))
+
+    Ok(files)
 }

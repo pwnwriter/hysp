@@ -1,4 +1,4 @@
-use crate::engine::show_splashes;
+use crate::engine::hysp_ui::show_splashes;
 use clap::{Args, Parser, Subcommand};
 
 /// The HYSP CLI.
@@ -18,7 +18,6 @@ pub enum CommandChoice {
     #[command(arg_required_else_help = true)]
     #[clap(name = "install")]
     Install(InstallArgs),
-
     /// Uninstall a package
     #[command(arg_required_else_help = true)]
     #[clap(name = "remove")]
@@ -27,11 +26,11 @@ pub enum CommandChoice {
     /// List installed pkgs
     #[clap(name = "list")]
     List,
-
-    /// Search a package
-    #[command(arg_required_else_help = true)]
-    #[clap(name = "search")]
-    Search(SearchArgs),
+    //
+    // /// Search a package
+    // #[command(arg_required_else_help = true)]
+    // #[clap(name = "search")]
+    // Search(SearchArgs),
 }
 
 #[derive(Args, Clone)]
@@ -41,10 +40,10 @@ pub struct InstallArgs {
     #[arg(required = true)]
     pub package: String,
 
-    /// Strip down the console output
+    /// Strip down the console i/o
     #[arg(long)]
     #[arg(required = false)]
-    pub silent: bool,
+    pub force: bool,
 }
 
 #[derive(Args, Clone)]
@@ -53,11 +52,6 @@ pub struct RemoveArgs {
     #[arg(short, long)]
     #[arg(required = true)]
     pub package: String,
-
-    /// Strip down the console output
-    #[arg(long)]
-    #[arg(required = false)]
-    pub silent: bool,
 }
 
 #[derive(Args, Clone)]

@@ -4,7 +4,7 @@ use colored::{Color, Colorize};
 
 /// Prints the given message to the console and aborts the process.
 pub fn abort(msg: &str) -> ! {
-    error(msg);
+    eprintln!("Error: {}", msg);
     std::process::exit(1);
 }
 
