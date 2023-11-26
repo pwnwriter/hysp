@@ -126,6 +126,16 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 </details>
 
+<details> <summary><code>🔭 Search for available pkgs </code></summary>
+&nbsp;
+  
+  ```bash
+  hysp search -p <pkg> # use --silent to strip down the console i/o
+  ```
+
+![screenshot_2023-11-26_14-24-57](https://github.com/pwnwriter/hysp/assets/90331517/19a837c4-45cf-4043-86ac-b83cf780c487)
+
+</details>
 
 <a name="repo"></a>
  ## Hosting custom repo 💾
@@ -220,7 +230,7 @@ There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github
 <a name="support"></a>
  ## Support 💌
 
- I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***).  I'll appreciate that :)
+ I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***), Or by leaving a star ⭐ ; I'll appreciate your action :)
 
 <a name="license"></a>
  ## License ㊙️
