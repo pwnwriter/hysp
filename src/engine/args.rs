@@ -26,11 +26,11 @@ pub enum CommandChoice {
     /// List installed pkgs
     #[clap(name = "list")]
     List,
-    //
-    // /// Search a package
-    // #[command(arg_required_else_help = true)]
-    // #[clap(name = "search")]
-    // Search(SearchArgs),
+
+    /// Search a package
+    #[command(arg_required_else_help = true)]
+    #[clap(name = "search")]
+    Search(SearchArgs),
 }
 
 #[derive(Args, Clone)]

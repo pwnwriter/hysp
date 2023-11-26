@@ -90,23 +90,21 @@ pub async fn fetch_pkg(
         format!("{}/{}.toml", pkg_data_location, pkg_name)
     };
 
-    if !install_pkgs.force {
-        if Path::new(&pkg_data_location).exists() {
-            info(
-                &format!(
-                    "There's already a (binary/data) exist:  {}",
-                    pkg_data_location
-                ),
-                colored::Color::Red,
-            );
-            info(
-                "If you say Y, it's going to overwrite the old (binary/data) .. ",
-                colored::Color::Red,
-            );
-            let should_continue = ask_to_continue();
-            if !should_continue {
-                std::process::exit(1);
-            }
+    if !install_pkgs.force && Path::new(&pkg_data_location).exists() {
+        info(
+            &format!(
+                "There's already a (binary/data) exist:  {}",
+                pkg_data_location
+            ),
+            colored::Color::Red,
+        );
+        info(
+            "If you say Y, it's going to overwrite the old (binary/data) .. ",
+            colored::Color::Red,
+        );
+        let should_continue = ask_to_continue();
+        if !should_continue {
+            std::process::exit(1);
         }
     }
 
@@ -131,7 +129,7 @@ pub async fn fetch_pkg(
             let toml_string = toml::to_string(&parsed_package_info)?;
             let mut file = File::create(&pkg_data_location)?;
             file.write_all(toml_string.as_bytes())?;
-            spinner_pkginfo.stop_and_persist(" Fetching pkginfo  ", "Done");
+            spinner_pkginfo.stop_and_persist("Fetching pkginfo  ", "Done");
             print_info(parsed_package_info.clone());
 
             info(
@@ -174,7 +172,7 @@ async fn download_binary(
     let permissions = Permissions::from_mode(0o755); // Set file permissions to be executable for the current user
     fs::set_permissions(&pkg_binary_path, permissions)?;
 
-    spinner_binary.stop_and_persist(" Fetching binary  ", "Done");
+    spinner_binary.stop_and_persist("Fetching binary  ", "Done");
 
     info(
         &format!("Binary location: {}", pkg_binary_path),

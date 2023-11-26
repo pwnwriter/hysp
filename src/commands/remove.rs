@@ -49,7 +49,7 @@ fn remove_file(file_path: &str) -> Result<(), Error> {
     if let Err(err) = std::fs::remove_file(file_path) {
         match err.kind() {
             ErrorKind::NotFound => {
-                println!("No such package installed: {}", file_path);
+                println!("No such package installed as : {}", file_path);
                 std::process::exit(1);
             }
             _ => return Err(err),

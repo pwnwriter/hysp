@@ -34,20 +34,15 @@ pub async fn list_pkgs() -> Result<()> {
 }
 
 pub fn list_files_in_directory(directory: &str) -> Result<Vec<String>, std::io::Error> {
-    let entries = match fs::read_dir(directory) {
-        Ok(entries) => entries,
-        Err(e) => return Err(e),
-    };
+    let entries = fs::read_dir(directory)?
+        .map(|entry_result| entry_result.map(|entry| entry.file_name().into_string()));
 
-    let mut files = Vec::new();
+    let files: Result<Vec<_>, _> = entries.flatten().collect();
 
-    for entry in entries {
-        if let Ok(entry) = entry {
-            if let Some(file_name) = entry.file_name().into_string().ok() {
-                files.push(file_name);
-            }
-        }
-    }
-
-    Ok(files)
+    files.map_err(|_| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "Unable to convert file name to string",
+        )
+    })
 }

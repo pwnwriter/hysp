@@ -15,6 +15,9 @@ pub async fn start() {
         }
 
         CommandChoice::List => commands::list::list_pkgs().await,
+        CommandChoice::Search(pkg_search_args) => {
+            commands::search::search_pkg(pkg_search_args).await
+        }
     };
 
     if let Err(err) = result {

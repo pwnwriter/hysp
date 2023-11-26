@@ -21,7 +21,7 @@ pub fn check_essentials(pkginfo: PackageInfo) {
             abort(&format!("Conflict detected aborting: {}", conflict_pkg));
         }
     }
-    spinner_conflicts.stop_and_persist(" Checking for conflicts  ", "Done");
+    spinner_conflicts.stop_and_persist("Checking for conflicts  ", "Done");
     info(
         "No conflicts detected, proceeding .. ",
         colored::Color::Cyan,
@@ -42,7 +42,7 @@ pub fn check_essentials(pkginfo: PackageInfo) {
         }
     }
 
-    spinner_deps.stop_and_persist(" Checking for dependencies  ", "Done");
+    spinner_deps.stop_and_persist("Checking for dependencies  ", "Done");
 
     info(
         "No dependencies detected, proceeding .. ",
@@ -64,7 +64,7 @@ pub fn print_info(pkginfo: PackageInfo) {
     let pkg_hash = pkginfo.package.sha.bold().cyan();
 
     let package_information = Columns::from(vec![
-        format!("{ASCII}").split('\n').collect::<Vec<&str>>(),
+        ASCII.split('\n').collect::<Vec<&str>>(),
         vec![
             &format!("Package: {pkg_bin_name}"),
             &format!("Architecture: {pkg_architecture}"),

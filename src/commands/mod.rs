@@ -1,6 +1,7 @@
 pub mod install;
 pub mod list;
 pub mod remove;
+pub mod search;
 
 pub mod hysp_cmd_helper {
     use anyhow::{Context, Result};

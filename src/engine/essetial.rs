@@ -29,7 +29,7 @@ pub async fn check_hash(pkgname: String, expected_hash: String) -> Result<bool, 
     }
 
     let actual_hash = format!("{:x}", hasher.finalize());
-    spinner_hash.stop_and_persist(" Validating hash  ", "Done");
+    spinner_hash.stop_and_persist("Validating hash  ", "Done");
 
     Ok(actual_hash == expected_hash)
 }
