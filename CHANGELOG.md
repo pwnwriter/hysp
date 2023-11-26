@@ -2,17 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.1] - 2023-11-22
+## [0.1.1] - 2023-11-26
 
 ### Features
 
 - Docx for the app // pkg demp
+- Changelogs, preparing for new (v0.1.1) release
+- Fixed spinner on conflict detect // subcommand to check for installed pkgs
+- Subcommand to search for available packages [closes #4]
 
 ### Miscellaneous Tasks
 
 - Fixed desc for the app
 - Fixed spells ; notes for hysp directory structure
 - Show demo upon logo clicksss
+- Bumping new version for releases
+- Fixed typos // broken links
+- Demos and explanations of config file; donate links
+- Show usages ; demo imgs
+- Demo imgs for searching pkgs
+- Support links // msgs :P
+
+### Refactor
+
+- Made pkg-info except name optional
+- Use sha for integrity validation [closes #3]; rewritten core from scratch
+- Made pkg-info as optional to handle aborting
 
 ## [0.1.0] - 2023-11-21
 
