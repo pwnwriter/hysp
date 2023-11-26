@@ -21,7 +21,7 @@ pub fn check_essentials(pkginfo: PackageInfo) {
             abort(&format!("Conflict detected aborting: {}", conflict_pkg));
         }
     }
-    spinner_conflicts.stop_and_persist("Checking for conflicts  ", "Done");
+    spinner_conflicts.stop_and_persist(" Checking for conflicts  ", "Done");
     info(
         "No conflicts detected, proceeding .. ",
         colored::Color::Cyan,
@@ -34,6 +34,7 @@ pub fn check_essentials(pkginfo: PackageInfo) {
         Streams::Stderr,
     );
     for required_pkg in pkginfo.package.conditions.requires {
+        // Todo: Handle dependency cycle
         if !is_pkg_installed(&required_pkg) {
             abort(&format!(
                 "Dependency cycle detected aborting: {}",
@@ -42,7 +43,7 @@ pub fn check_essentials(pkginfo: PackageInfo) {
         }
     }
 
-    spinner_deps.stop_and_persist("Checking for dependencies  ", "Done");
+    spinner_deps.stop_and_persist(" Checking for dependencies  ", "Done");
 
     info(
         "No dependencies detected, proceeding .. ",
@@ -52,16 +53,53 @@ pub fn check_essentials(pkginfo: PackageInfo) {
 
 #[inline]
 pub fn print_info(pkginfo: PackageInfo) {
+    // Needed
     let pkg_bin_name = pkginfo.bin.name.bold().bright_red();
     let pkg_architecture = pkginfo.package.architecture.green();
-    let pkg_desc = pkginfo.package.description.bold();
-    let pkg_author = pkginfo.package.author.blue();
-    let pkg_stars = pkginfo.package.stars.cyan();
-    let pkg_version = pkginfo.package.version.blink();
-    let pkg_size = pkginfo.package.size.yellow();
-    let pkg_license = pkginfo.package.license.purple();
-    let pkg_language = pkginfo.package.language.red();
     let pkg_hash = pkginfo.package.sha.bold().cyan();
+
+    // Optional
+    let pkg_desc = if pkginfo.package.description.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.description.clone()
+    };
+
+    let pkg_author = if pkginfo.package.author.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.author.clone()
+    };
+
+    let pkg_stars = if pkginfo.package.stars.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.stars.clone()
+    };
+
+    let pkg_version = if pkginfo.package.version.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.version.clone()
+    };
+
+    let pkg_size = if pkginfo.package.size.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.size.clone()
+    };
+
+    let pkg_license = if pkginfo.package.license.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.license.clone()
+    };
+
+    let pkg_language = if pkginfo.package.language.is_empty() {
+        "Not available".to_string()
+    } else {
+        pkginfo.package.language.clone()
+    };
 
     let package_information = Columns::from(vec![
         ASCII.split('\n').collect::<Vec<&str>>(),

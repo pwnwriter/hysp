@@ -143,7 +143,7 @@ pub async fn fetch_pkg(
 }
 
 #[inline]
-async fn download_binary(
+pub async fn download_binary(
     binary_url: String,
     binary_name: String,
     binary_hash: String,

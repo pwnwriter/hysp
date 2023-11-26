@@ -69,6 +69,15 @@ pub mod pkg_config_structure {
         pub keywords: Vec<String>,
         pub categories: Vec<String>,
     }
+
+    // impl Default for PackageInfo {
+    //     fn default() -> Self {
+    //         PackageInfo {
+    //             bin: Default::default(),
+    //             package: Default::default(),
+    //         }
+    //     }
+    // }
 }
 
 use crate::commands::hysp_cmd_helper::get_arch;
