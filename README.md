@@ -230,7 +230,7 @@ There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github
 <a name="support"></a>
  ## Support 💌
 
- I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***).  I'll appreciate that :)
+ I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***), Or by leaving a star ⭐ ; I'll appreciate your action :)
 
 <a name="license"></a>
  ## License ㊙️
