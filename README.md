@@ -126,6 +126,16 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 </details>
 
+<details> <summary><code>🔭 Search for available pkgs </code></summary>
+&nbsp;
+  
+  ```bash
+  hysp search -p <pkg> # use --silent to strip down the console i/o
+  ```
+
+![screenshot_2023-11-26_14-24-57](https://github.com/pwnwriter/hysp/assets/90331517/19a837c4-45cf-4043-86ac-b83cf780c487)
+
+</details>
 
 <a name="repo"></a>
  ## Hosting custom repo 💾
