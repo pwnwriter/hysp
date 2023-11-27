@@ -17,12 +17,19 @@ pub async fn list_pkgs() -> Result<()> {
 
     match list_files_in_directory(&hysp_bin_dir) {
         Ok(files) => {
-            info(
-                &format!("Installed pkgs in: {} ", hysp_bin_dir),
-                colored::Color::Cyan,
-            );
-            for file in &files {
-                println!("{}", file);
+            if files.is_empty() {
+                info(
+                    &format!("You have not installed any packages yet at : {} ", hysp_bin_dir),
+                    colored::Color::Cyan,
+                );
+            } else {
+                info(
+                    &format!("Installed pkgs in: {} ", hysp_bin_dir),
+                    colored::Color::Cyan,
+                );
+                for file in &files {
+                    println!("{}", file);
+                }
             }
         }
         Err(err) => {
