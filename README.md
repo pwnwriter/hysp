@@ -43,8 +43,13 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
   <details> <summary><code>🪄 Binary </code></summary>
     &nbsp;
 
-  - You can directly download the [**binary**](https://github.com/pwnwriter/hysp/releases) of your arch and run it.
-  
+  - *Manual* : You can directly download the [**binary**](https://github.com/pwnwriter/hysp/releases) of your arch and run it.
+  - *One liner* : Run this script, requires `jq`,`curl`, `tar` & `wget`
+   ```bash
+wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/latest" | jq -r '.assets[].browser_download_url' | grep -Ei "$(uname -m).*$(uname -s).*musl" | grep -v "\.sha")" | tar -xzf - --strip-components=1
+./hysp -h
+``` 
+
   </details>
   <details> <summary><code>🌼 Source </code></summary>
   &nbsp;
