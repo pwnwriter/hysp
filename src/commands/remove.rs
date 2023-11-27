@@ -1,4 +1,7 @@
-use crate::engine::{args::RemoveArgs, config::read_config};
+use crate::{
+    engine::{args::RemoveArgs, config::read_config},
+    log::info,
+};
 use spinoff::{spinners, Color, Spinner, Streams};
 use std::io::{Error, ErrorKind};
 
@@ -39,6 +42,11 @@ pub async fn remove_pkg(remove_pkg: RemoveArgs) -> Result<()> {
 
     if remove_file(&pkg_binary_location).is_err() | remove_file(&pkg_toml_location).is_err() {
     } else {
+        println!();
+        info(
+            &format!("To remove: {}", &pkg_binary_location),
+            colored::Color::Cyan,
+        );
         spinner_removepkg.stop_and_persist("Removed pkg successfully  ", "Done");
     }
 

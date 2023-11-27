@@ -19,7 +19,10 @@ pub async fn list_pkgs() -> Result<()> {
         Ok(files) => {
             if files.is_empty() {
                 info(
-                    &format!("You have not installed any packages yet at : {} ", hysp_bin_dir),
+                    &format!(
+                        "You have not installed any packages yet at : {} ",
+                        hysp_bin_dir
+                    ),
                     colored::Color::Cyan,
                 );
             } else {
