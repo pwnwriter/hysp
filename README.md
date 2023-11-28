@@ -101,7 +101,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
  
 ***Firstly, if you intend to access the binaries installed via `hysp` over the system, you may want to...***
 
-<details> <summary><code> Setup path for hysp bin🎡  </code></summary>
+<details> <summary><code>🏵️ Setup path for hysp bin  </code></summary>
  
 -  Add the following line to your shellrc. [ `zshrc`, `bashrc` ***etc***. ]
 
@@ -117,7 +117,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
   ```bash
   hysp |install|uninstall|search| -h # check for help menu
   ```
-![screenshot_2023-11-27_18-41-07](https://github.com/pwnwriter/hysp/assets/90331517/1e306127-dc3d-47e1-a158-71e92e324544)
+![screenshot_2023-11-28_13-45-12](https://github.com/pwnwriter/hysp/assets/90331517/ef21f487-961e-4cf9-b87d-1690380dff6a)
 
 </details>
 
@@ -151,6 +151,17 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
   ```
 
 ![screenshot_2023-11-26_14-24-57](https://github.com/pwnwriter/hysp/assets/90331517/19a837c4-45cf-4043-86ac-b83cf780c487)
+
+</details>
+
+<details> <summary><code>⚕️ Checking configuration health </code></summary>
+&nbsp;
+  
+  ```bash
+ hysp health
+  ```
+
+![screenshot_2023-11-28_13-51-37](https://github.com/pwnwriter/hysp/assets/90331517/27d78886-2e3f-4396-8b73-a9a26facad41)
 
 </details>
 
