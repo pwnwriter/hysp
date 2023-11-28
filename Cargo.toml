@@ -15,7 +15,7 @@ categories = ["accessibility", "web-programming", "command-line" ]
 [dependencies]
 reqwest = { version = "0.11.20", default-features = false, features = ["rustls-tls"] }
 spinoff = { version = "0.8.0", features = ["dots", "arc", "line"] }
-clap = { version = "4.4.8", features = ["string", "derive"] }
+clap = { version = "4.4.10", features = ["string", "derive"] }
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.34.0", features = ["full"] }
 anyhow = "1.0.75"
