@@ -69,15 +69,6 @@ pub mod pkg_config_structure {
         pub keywords: Vec<String>,
         pub categories: Vec<String>,
     }
-
-    // impl Default for PackageInfo {
-    //     fn default() -> Self {
-    //         PackageInfo {
-    //             bin: Default::default(),
-    //             package: Default::default(),
-    //         }
-    //     }
-    // }
 }
 
 use crate::commands::hysp_cmd_helper::get_arch;
@@ -96,6 +87,15 @@ pub async fn read_config() -> Result<LocalConfig> {
         std::process::exit(1);
     });
 
+    println!("{}", BAR.bold().purple());
+    info(
+        &format!(
+            "Using custom config from : {} ",
+            config_file_path.to_string_lossy(),
+        ),
+        colored::Color::Cyan,
+    );
+    println!("{}", BAR.bold().purple());
     let contents = match read_file_content(&config_file_path.to_string_lossy()).await {
         Ok(contents) => contents,
         Err(_) => {

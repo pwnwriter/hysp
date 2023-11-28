@@ -15,6 +15,7 @@ pub async fn start() {
         }
 
         CommandChoice::List => commands::list::list_pkgs().await,
+        CommandChoice::Health => commands::health::check_health().await,
         CommandChoice::Search(pkg_search_args) => {
             commands::search::search_pkg(pkg_search_args).await
         }

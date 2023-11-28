@@ -1,3 +1,4 @@
+pub mod health;
 pub mod install;
 pub mod list;
 pub mod remove;

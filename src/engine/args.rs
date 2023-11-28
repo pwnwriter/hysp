@@ -31,6 +31,10 @@ pub enum CommandChoice {
     #[command(arg_required_else_help = true)]
     #[clap(name = "search")]
     Search(SearchArgs),
+
+    /// Check configuration health
+    #[clap(name = "health")]
+    Health,
 }
 
 #[derive(Args, Clone)]

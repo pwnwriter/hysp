@@ -24,6 +24,6 @@ pub fn success(msg: &str) {
     println!("{}: {}", "Success".bold().color(Color::Green), msg);
 }
 
-pub fn warn(msg: &str) {
-    println!("{}: {}", "Warning".bold().color(Color::Yellow), msg);
+pub fn warn(msg: &str, color: Color) {
+    println!("{}: {}", "Warning".bold().color(color), msg);
 }
