@@ -43,8 +43,13 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
   <details> <summary><code>🪄 Binary </code></summary>
     &nbsp;
 
-  - You can directly download the [**binary**](https://github.com/pwnwriter/hysp/releases) of your arch and run it.
-  
+  - *Manual* : You can directly download the [**binary**](https://github.com/pwnwriter/hysp/releases) of your arch and run it.
+  - *One liner* : Run this script, requires `jq`,`curl`, `tar` & `wget`
+   ```bash
+wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/latest" | jq -r '.assets[].browser_download_url' | grep -Ei "$(uname -m).*$(uname -s).*musl" | grep -v "\.sha")" | tar -xzf - --strip-components=1
+./hysp -h
+``` 
+
   </details>
   <details> <summary><code>🌼 Source </code></summary>
   &nbsp;
@@ -93,6 +98,18 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 <a name="usages"></a>
  ## Hysp usages 🎠
+ 
+***Firstly, if you intend to access the binaries installed via `hysp` over the system, you may want to...***
+
+<details> <summary><code> Setup path for hysp bin🎡  </code></summary>
+ 
+-  Add the following line to your shellrc. [ `zshrc`, `bashrc` ***etc***. ]
+
+    ```bash
+    export PATH="$PATH:${$(find ~/.local/share/hysp/bin -type d -printf %p:)%%:}"
+    ```
+</details>
+ 
 <details> <summary><code>🐤 Help menu</code></summary>
   &nbsp;
   
@@ -100,7 +117,7 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
   ```bash
   hysp |install|uninstall|search| -h # check for help menu
   ```
-![screenshot_2023-11-25_22-37-02](https://github.com/pwnwriter/hysp/assets/90331517/48e6d5be-3174-4aef-8d5e-a9c02c58aaf4)
+![screenshot_2023-11-27_18-41-07](https://github.com/pwnwriter/hysp/assets/90331517/1e306127-dc3d-47e1-a158-71e92e324544)
 
 </details>
 
@@ -122,7 +139,7 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
   hysp remove -p <pkg> 
   ```
 
-![screenshot_2023-11-25_22-41-38](https://github.com/pwnwriter/hysp/assets/90331517/20f1293b-aa1e-4fd3-9cf8-11c3a197606a)
+![screenshot_2023-11-27_18-56-49](https://github.com/pwnwriter/hysp/assets/90331517/e468c329-eb08-4b08-8c06-6a0e56756ee5)
 
 </details>
 
@@ -139,16 +156,6 @@ I am a ***CTF player*** who often finds myself without my main laptop in places 
 
 <a name="repo"></a>
  ## Hosting custom repo 💾
-
-
-<details> <summary><code> Setup path for hysp bin🎡  </code></summary>
-    
--  Add hysp binaries to `$PATH` for ease access over the system
-
-    ```bash
-    export PATH="$PATH:${$(find ~/.local/share/hysp/bin -type d -printf %p:)%%:}"
-    ```
-</details>
 
 - Hysp provies the following configuration, which can be overwritten by defining a `config file`.
   Default config
@@ -230,7 +237,7 @@ There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github
 <a name="support"></a>
  ## Support 💌
 
- I am a student currently attending university. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***), Or by leaving a star ⭐ ; I'll appreciate your action :)
+ I am a student currently attending university. I like working for *Open Source* in my free time. If you find my tool or work beneficial, please consider supporting me via [*KO-FI*](https://ko-fi.com/pwnwriter) or [*ESEWA*](https://metislinux.org/docs/donate)* (***Nepal only***), Or by leaving a star ⭐ ; I'll appreciate your action :)
 
 <a name="license"></a>
  ## License ㊙️
