@@ -2,7 +2,7 @@
     <a href="https://youtu.be/IOOzoeC-ZRQ?si=118OtD9c8u1Tr7JF">
         <img src="https://raw.githubusercontent.com/pwnwriter/hysp/images/hysp-rounded.png" width="400"></a>
     <br>
-    <b><strong>An independent package manager for the <code>unix and linux🌷</code></strong></b>
+    <b><strong>An independent package manager for <code>unix and linux🌷</code></strong></b>
     <br>
     <br>
     <a href="https://github.com/pwnwriter/hysp/releases">
@@ -81,7 +81,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 &nbsp;
   
   ```bash
-  sudo/doas pacman -Syyy hysp
+  sudo/doas pacman -Sy hysp
   ```
 
 </details>
