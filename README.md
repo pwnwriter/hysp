@@ -106,7 +106,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 -  Add the following line to your shellrc. [ `zshrc`, `bashrc` ***etc***. ]
 
     ```bash
-    export PATH="$PATH:${$(find ~/.local/share/hysp/bin -type d -printf %p:)%%:}"
+    export PATH="$HOME/.local/share/hysp/bin/:$PATH"
     ```
 </details>
  
@@ -242,7 +242,7 @@ categories = ["Utilities"]
 
 <a name="pkgs"></a>
  ## Packages whuat?? 📦
-There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github.com/metis-os/hysp-pkgs) . You can confidently utilize the default configuration without any hesitation. However, if you prefer to host your own packages, you have the option to do so by creating your own custom configuration file under ***`~/.config/hysp/config.toml`***. 
+There is a list of packages available in [*`metis-os/hysp-pkgs`*](https://github.com/metis-os/hysp-pkgs) . You can confidently utilize the default configuration without any hesitation. However, if you prefer to host your own packages, you have the option to do so by creating your own custom configuration file under ***`~/.config/hysp/config.toml`***. See [`#repo`](https://github.com/pwnwriter/hysp#repo) 
 
 
 <a name="support"></a>
