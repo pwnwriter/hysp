@@ -188,7 +188,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 |  `remote`   | Package repository                 | [***`metis-os/hysp-pkgs`***](https://github.com/metis-os/hysp-pkgs) |
 |  `home`     | Home for `hysp`                    | ***`hysp`***                               |
 |  `bin`      | Directory to save the binaries     | ***`~/.local/share/hysp/bin`***            |
-|  `data`     | Directory to save pkg data         | ***`~/.local/share/hysp/data`***           |
+|  `data`     | Directory to save pkg data         | ***`~/.local/share/hysp/data/Architecture`***           |
 |  `aarch`    | Your system Architecture           | Only supported ***`X86_64,aarch64`***      |
 
 <details> <summary><code>🎄 Tree view of the repo </code></summary>
