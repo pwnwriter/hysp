@@ -22,6 +22,7 @@
 ## Table of contents 📔
 
 * [`Why`](#why)
+* [`Features`](#features)
 * [`Installation`](#installation)
 * [`Hysp usages`](#usages)
 * [`Hosting custom repo`](#repo)
@@ -36,17 +37,16 @@ I am a **CTF player** [***(Capture the flag)*** ](https://en.wikipedia.org/wiki/
 
 <sup><sub>Dont touch my shrug</sub></sup>
 
-<a name="why"></a>
+<a name="features"></a>
  ## Features ⚾
 1. **Versatile** : Hysp operates on (*nix) systems and various architectures (x86, aarch64_arm), providing flexibility for your needs.
-3. **Simple** : No prerequisites is needed for `Hysp` or `hysp-pkgs`. Install Hysp as a single binary, no need for Go, Rust, or any other dependencies. Saves space, storage, and time.
-4. **Customizable** : Pkg-Source can be self-hosted by anyone, allowing hysp to use your ***very own*** instead of the default source and local configuration as well. See [#Self hosting](https://github.com/pwnwriter/hysp#repo)
-5. **Statically compiled** : The default source [`metis-os/hysp-pkgs`](https://github.com/metis-os/hysp-pkgs)) has all statically compiled binaries, _only statically linked binaries that will run anywhere_. You can always host dynamic or whatever you want.
-6. **No Special Privileges** : [Hysp](https://github.com/pwnwriter/hysp) requires no special perms or privileges. It can run completely in userspace with all of its features.
-7. **Everything is open source** : Hysp uses github actions to build and ship the packages. On top of that it uses `sha` for varifying the binary.
-
-</details>
-<details> <summary><code>Important links </code></summary>
+2. **Simple** : No prerequisites is needed for `Hysp` or `hysp-pkgs`. Install Hysp as a single binary, no need for Go, Rust, or any other dependencies. Saves space, storage, and time.
+3. **Customizable** : Pkg-Source can be self-hosted by anyone, allowing hysp to use your ***very own*** instead of the default source and local configuration as well. See [#Self hosting](https://github.com/pwnwriter/hysp#repo)
+4. **Statically compiled** : The default source [`metis-os/hysp-pkgs`](https://github.com/metis-os/hysp-pkgs)) has all statically compiled binaries, _only statically linked binaries that will run anywhere_. You can always host dynamic or whatever you want.
+5. **No Special Privileges** : [Hysp](https://github.com/pwnwriter/hysp) requires no special perms or privileges. It can run completely in userspace with all of its features.
+6. **Everything is open source** : Hysp uses github actions to build and ship the packages. On top of that it uses `sha` for varifying the binary.
+  
+<details> <summary><code>7. Security Considerations</code></summary>
   &nbsp;
 
 It is never a good idea to install random binaries from random sources. 
