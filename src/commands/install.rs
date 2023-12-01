@@ -1,11 +1,8 @@
 use crate::commands::hysp_cmd_helper::ask_to_continue;
 use crate::engine::config::pkg_config_structure::*;
-use crate::engine::helpers::create_directory_if_not_exists;
+use crate::engine::helpers::{create_directory_if_not_exists, print_info};
 use crate::engine::{
-    args::InstallArgs,
-    config::read_config,
-    essetial::check_hash,
-    helpers::{check_essentials, print_info},
+    args::InstallArgs, config::read_config, essetial::check_hash, helpers::check_essentials,
 };
 use crate::log::{abort, info};
 use anyhow::Result;
@@ -135,12 +132,13 @@ pub async fn fetch_pkg(
             let mut file = File::create(&pkg_data_location)?;
             file.write_all(toml_string.as_bytes())?;
             spinner_pkginfo.stop_and_persist("Fetching pkginfo  ", "Done");
-            print_info(parsed_package_info.clone());
 
+            print_info(parsed_package_info.clone());
             info(
                 &format!("Data location: {}", pkg_data_location),
                 colored::Color::Cyan,
             );
+
             Ok(parsed_package_info)
         }
         false => abort("Couldn't find package in the db"),

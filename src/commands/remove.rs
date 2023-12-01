@@ -45,9 +45,7 @@ pub async fn remove_pkg(remove_pkg: RemoveArgs) -> Result<()> {
     let pkg_name = remove_pkg.package;
     let pkg_toml_location = format!("{}/{}.toml", hysp_data_dir, pkg_name);
 
-    let contents = read_file_content(&pkg_toml_location)
-        .await
-        .map_err(|err| err)?;
+    let contents = read_file_content(&pkg_toml_location).await?;
 
     let parsed_config_toml = toml::from_str::<PackageInfo>(&contents)?;
 
@@ -62,7 +60,7 @@ pub async fn remove_pkg(remove_pkg: RemoveArgs) -> Result<()> {
     }
 
     let dependencies_str = formatted_dependencies.join(",");
-    
+
     println!();
 
     info(
@@ -73,17 +71,17 @@ pub async fn remove_pkg(remove_pkg: RemoveArgs) -> Result<()> {
     for dependency in &parsed_config_toml.package.conditions.requires {
         let dep_binary_location = format!("{}/{}", hysp_bin_dir, dependency);
         let dep_binary_toml_location = format!("{}/{}.toml", hysp_data_dir, dependency);
-        remove_file_silent(&dep_binary_location);
-        remove_file_silent(&dep_binary_toml_location);
+        remove_files(&dep_binary_location);
+        remove_files(&dep_binary_toml_location);
     }
 
-    remove_file_silent(&pkg_binary_location);
-    remove_file_silent(&pkg_binary_toml_location);
+    remove_files(&pkg_binary_location);
+    remove_files(&pkg_binary_toml_location);
     spinner_removepkg.stop_and_persist("Removed packages  ", "Done");
     Ok(())
 }
 
-fn remove_file_silent(file_path: &str) {
+fn remove_files(file_path: &str) {
     if let Err(err) = remove_file(file_path) {
         match err.kind() {
             ErrorKind::NotFound => {
