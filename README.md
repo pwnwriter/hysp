@@ -32,9 +32,45 @@
 <a name="why"></a>
  ## Why?? 🚩
 
-I am a ***CTF player*** who often finds myself without my main laptop in places that lack the tools I need. Some distros don't carry the packages I require and some doesn't keep them updated. That's why I created my own package manager :). It fetches tool binaries easily, ensuring I always have what I need to compete.
+I am a **CTF player** [***(Capture the flag)*** ](https://en.wikipedia.org/wiki/Capture_the_flag_(cybersecurity)) who often finds myself without my main laptop in places that lack the tools I need. Some distros don't carry the packages I require and some doesn't keep them updated. That's why I created my own package manager :). It fetches tool binaries easily, ensuring I always have what I need to compete.
 
 <sup><sub>Dont touch my shrug</sub></sup>
+
+<a name="why"></a>
+ ## Features ⚾
+1. **Versatile** : Hysp operates on (*nix) systems and various architectures (x86, aarch64_arm), providing flexibility for your needs.
+3. **Simple** : No prerequisites is needed for `Hysp` or `hysp-pkgs`. Install Hysp as a single binary, no need for Go, Rust, or any other dependencies. Saves space, storage, and time.
+4. **Customizable** : Pkg-Source can be self-hosted by anyone, allowing hysp to use your ***very own*** instead of the default source and local configuration as well. See [#Self hosting](https://github.com/pwnwriter/hysp#repo)
+5. **Statically compiled** : The default source [`metis-os/hysp-pkgs`](https://github.com/metis-os/hysp-pkgs)) has all statically compiled binaries, _only statically linked binaries that will run anywhere_. You can always host dynamic or whatever you want.
+6. **No Special Privileges** : [Hysp](https://github.com/pwnwriter/hysp) requires no special perms or privileges. It can run completely in userspace with all of its features.
+7. **Everything is open source** : Hysp uses github actions to build and ship the packages. On top of that it uses `sha` for varifying the binary.
+
+</details>
+<details> <summary><code>Important links </code></summary>
+  &nbsp;
+
+It is never a good idea to install random binaries from random sources. 
+
+Check these `HackerNews Discussions`
+> - [A cautionary tale from the decline of SourceForge](https://news.ycombinator.com/item?id=31110206)
+> - [Downloading PuTTY Safely Is Nearly Impossible (2014)](https://news.ycombinator.com/item?id=9577861)
+
+
+> ```bash
+> !# PKG Metadata
+> # Everything is automated via Github Actions & Scripts
+> Repo --> https://github.com/metis-os/hysp-pkgs
+> WorkFlows --> https://github.com/metis-os/hysp-pkgs/tree/main/.github/workflows
+> Scripts --> https://github.com/metis-os/hysp-pkgs/tree/main/.github/scripts
+> 
+> !# Upstream Source
+> # Everything is automated via Github Actions & Build Scripts
+> Repo --> https://github.com/Azathothas/Toolpacks
+> WorkFlows --> https://github.com/Azathothas/Toolpacks/tree/main/.github/workflows
+> Build Scripts --> https://github.com/Azathothas/Toolpacks/tree/main/.github/scripts
+> ```
+  </details>
+
 
 
 <a name="installation"></a>
