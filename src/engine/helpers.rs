@@ -1,12 +1,16 @@
+use super::args::InstallArgs;
+use super::config::read_config;
 use crate::commands::hysp_cmd_helper::{ASCII, BAR, RESET};
+use crate::commands::install::{download_binary, fetch_pkg};
 use crate::engine::config::pkg_config_structure::PackageInfo;
 use crate::engine::essetial::is_pkg_installed;
 use crate::log::{abort, info};
+use anyhow::Result;
 use colored::Colorize;
 use columns::Columns;
 use spinoff::{spinners, Color, Spinner, Streams};
 
-pub fn check_essentials(pkginfo: PackageInfo) {
+pub async fn check_essentials(pkginfo: PackageInfo, install_pkgs: InstallArgs) -> Result<()> {
     let mut spinner_conflicts = Spinner::new_with_stream(
         spinners::Dots,
         "Checking for conflicts ... ",
@@ -34,21 +38,26 @@ pub fn check_essentials(pkginfo: PackageInfo) {
         Streams::Stderr,
     );
     for required_pkg in pkginfo.package.conditions.requires {
-        // Todo: Handle dependency cycle
         if !is_pkg_installed(&required_pkg) {
-            abort(&format!(
-                "Dependency cycle detected aborting: {}",
-                required_pkg
-            ));
+            info(
+                &format!(
+                    "Dependency cycle : {} detected, installing depedent binaries",
+                    required_pkg,
+                ),
+                colored::Color::Cyan,
+            );
+
+            let _ = install_dependencies(&required_pkg, install_pkgs.clone()).await;
+        } else {
+            info(
+                "No dependencies detected, proceeding .. ",
+                colored::Color::Cyan,
+            );
         }
     }
 
-    spinner_deps.stop_and_persist(" Checking for dependencies  ", "Done");
-
-    info(
-        "No dependencies detected, proceeding .. ",
-        colored::Color::Cyan,
-    );
+    spinner_deps.stop_and_persist("Checking for dependencies  ", "Done");
+    Ok(())
 }
 
 #[inline]
@@ -129,4 +138,70 @@ pub fn create_directory_if_not_exists(path: &str) {
     if let Err(err) = std::fs::create_dir_all(path) {
         eprintln!("Error creating directory '{}': {}", path, err);
     }
+}
+
+#[inline]
+pub async fn install_dependencies(pkg_name: &str, install_pkgs: InstallArgs) -> Result<()> {
+    let hysp_config = read_config().await?;
+
+    let remote = hysp_config.source.remote.unwrap();
+
+    let aarch = hysp_config.source.aarch.unwrap();
+
+    let home_location = hysp_config
+        .local
+        .home
+        .unwrap()
+        .to_string_lossy()
+        .to_string();
+    let bin_location = hysp_config.local.bin.unwrap().to_string_lossy().to_string();
+    let data_location = hysp_config
+        .local
+        .data
+        .unwrap()
+        .to_string_lossy()
+        .to_string();
+
+    create_directory_if_not_exists(&home_location);
+    create_directory_if_not_exists(&bin_location);
+    create_directory_if_not_exists(&data_location);
+
+    let pkg_url = if remote.ends_with('/') {
+        format!(
+            "{}/{}/{}.toml",
+            remote.trim_end_matches('/'),
+            aarch,
+            pkg_name
+        )
+    } else {
+        format!("{}/{}/{}.toml", remote, aarch, pkg_name)
+    };
+
+    let package_config = fetch_pkg(
+        pkg_url,
+        data_location.clone(),
+        pkg_name.to_string(),
+        install_pkgs,
+    )
+    .await;
+    match package_config {
+        Ok(package_config) => {
+            let binary_url = package_config.package.source.clone();
+            if let Err(err) = download_binary(
+                binary_url,
+                package_config.bin.name.clone(),
+                package_config.package.sha,
+                bin_location,
+            )
+            .await
+            {
+                eprintln!("Error downloading binary: {}", err);
+            }
+        }
+        Err(err) => {
+            eprintln!("Error fetching package: {}", err);
+        }
+    }
+
+    Ok(())
 }

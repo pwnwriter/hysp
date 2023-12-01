@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# Trigger release action on new release
+# Trigger releaser ci for new release
 
 if [ -z "$1" ]; then
     echo "Please provide a version number."
-    echo "Usages: $0 v[X.Y.Z]"
+    echo "Usages: $0 [X.Y.Z]"
     exit 1
 fi
 

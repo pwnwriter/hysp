@@ -52,12 +52,17 @@ pub async fn install_packages(install_pkgs: InstallArgs) -> Result<()> {
         format!("{}/{}/{}.toml", remote, aarch, pkg_name)
     };
 
-    let package_config =
-        fetch_pkg(hysp_pkg_url, data_location.clone(), pkg_name, install_pkgs).await;
+    let package_config = fetch_pkg(
+        hysp_pkg_url,
+        data_location.clone(),
+        pkg_name,
+        install_pkgs.clone(),
+    )
+    .await;
     match package_config {
         Ok(package_config) => {
+            let _ = check_essentials(package_config.clone(), install_pkgs).await;
             let binary_url = package_config.package.source.clone();
-            check_essentials(package_config.clone());
             if let Err(err) = download_binary(
                 binary_url,
                 package_config.bin.name.clone(),
