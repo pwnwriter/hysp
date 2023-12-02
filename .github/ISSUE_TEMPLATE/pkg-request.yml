@@ -1,0 +1,35 @@
+name: Package Information Request
+description: Request information about a package
+labels: [package request]
+body:
+  - type: input
+    attributes:
+      label: "Package Name"
+      description: "Name of the package"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Package Homepage"
+      description: "URL or location of the package's homepage"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Software Architecture"
+      description: "Architecture(s) the package supports (e.g., x86, ARM, etc.)"
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: "Purpose/Description"
+      description: "A short desc of the tool"
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: "Additional Information"
+      description: "Any additional details or notes about the package"
+    validations:
+      required: false
+
