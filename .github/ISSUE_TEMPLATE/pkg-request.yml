@@ -1,35 +1,61 @@
-name: Package Information Request
-description: Request information about a package
+name: Request a New Package
+description: Request the addition of a tool to the default source for hysp.
 labels: [package request]
 body:
   - type: input
     attributes:
       label: "Package Name"
-      description: "Name of the package"
+      description: "Enter the name of the package."
     validations:
       required: true
   - type: input
     attributes:
       label: "Package Homepage"
-      description: "URL or location of the package's homepage"
+      description: "Provide the URL or location of the package's homepage."
     validations:
       required: true
   - type: input
     attributes:
       label: "Software Architecture"
-      description: "Architecture(s) the package supports (e.g., x86, ARM, etc.)"
+      description: "Specify the supported architecture(s) of the package (e.g., x86, ARM, etc.)."
     validations:
       required: false
   - type: textarea
     attributes:
       label: "Purpose/Description"
-      description: "A short desc of the tool"
+      description: "Briefly describe the tool's purpose."
     validations:
       required: false
   - type: textarea
     attributes:
       label: "Additional Information"
-      description: "Any additional details or notes about the package"
+      description: "Include any extra details or notes about the package."
     validations:
       required: false
+  - type: textarea
+    attributes:
+      label: "Check Package Availability"
+      description: |
+        Check if the package is already available(Yes/No). 
+         > If it's present in [hysp-pkgs](https://github.com/metis-os/hysp-pkgs) or [@Azathothas/Toolpacks], kindly refrain from submitting this request as it will be addressed in due course. 
+        
+        **To check in the [hysp](https://github.com/metis-os/hysp-pkgs) default repo:**
+        ```bash
+        hysp search -p <pkgname>
+        ```
 
+        **To check in the [building](https://github.com/Azathothas/Toolpacks) repo:**
+        ```bash
+        #-----------------------------------------------------------------------------#
+        ↣ x86_64
+        #Total Hosted pkgs --> Azathothas/Toolpacks
+        curl -qfsSL "https://api.github.com/repos/Azathothas/Toolpacks/contents/x86_64/" | jq -r '.[].name' | sort -u
+        #Detailed: https://github.com/Azathothas/Toolpacks/blob/main/x86_64/README.md
+        #-----------------------------------------------------------------------------#
+        ↣ aarch64 || arm64
+        #Total Hosted pkgs --> Azathothas/Toolpacks
+        curl -qfsSL "https://api.github.com/repos/Azathothas/Toolpacks/contents/aarch64_arm64/" | jq -r '.[].name' | sort -u
+        #Detailed: https://github.com/Azathothas/Toolpacks/blob/main/aarch64_arm64/README.md
+        ```
+    validations:
+      required: true
