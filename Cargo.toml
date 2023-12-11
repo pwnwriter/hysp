@@ -19,7 +19,7 @@ clap = { version = "4.4.8", features = ["string", "derive"] }
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.34.0", features = ["full"] }
 anyhow = "1.0.75"
-colored = "2.0.4"
+colored = "2.1.0"
 toml = "0.8.8"
 columns = "0.1.0"
 dirs = "5.0.1"
