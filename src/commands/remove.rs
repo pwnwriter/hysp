@@ -1,74 +1,105 @@
-use crate::{
-    engine::{args::RemoveArgs, config::read_config},
-    log::info,
+use crate::engine::helpers::remove_and_print;
+use crate::engine::{
+    args::RemoveArgs,
+    config::pkg_config_structure::PackageInfo,
+    helpers::{
+        local_config, print_package_info, prompt_yn, read_file_content, remove_trailing_slash,
+    },
+    msgx::info,
 };
-use spinoff::{spinners, Color, Spinner, Streams};
-use std::io::{Error, ErrorKind};
+use anyhow::Result;
 
-use anyhow::{anyhow, Result};
-
-pub async fn remove_pkg(remove_pkg: RemoveArgs) -> Result<()> {
-    let hysp_config = read_config().await?;
-
-    let mut spinner_removepkg = Spinner::new_with_stream(
-        spinners::Dots,
-        "Getting pkg info ... ",
-        Color::Green,
-        Streams::Stderr,
-    );
-
-    let hysp_data_dir = remove_trailing_slash(
-        hysp_config
-            .local
-            .data
-            .ok_or_else(|| anyhow!("Couldn't get data directory"))?
-            .to_string_lossy()
-            .to_string(),
-    );
-
-    let hysp_bin_dir = remove_trailing_slash(
-        hysp_config
-            .local
-            .bin
-            .ok_or_else(|| anyhow!("Couldn't get binary directory"))?
-            .to_string_lossy()
-            .to_string(),
-    );
-
-    let pkg_name = remove_pkg.package;
-
-    let pkg_binary_location = format!("{}/{}", hysp_bin_dir, pkg_name);
-    let pkg_toml_location = format!("{}/{}.toml", hysp_data_dir, pkg_name);
-
-    if remove_file(&pkg_binary_location).is_err() | remove_file(&pkg_toml_location).is_err() {
-    } else {
-        println!();
-        info(
-            &format!("To remove: {}", &pkg_binary_location),
-            colored::Color::Cyan,
-        );
-        spinner_removepkg.stop_and_persist("Removed pkg successfully  ", "Done");
+pub async fn remove_pkgs(pkg_remove_args: RemoveArgs) -> Result<()> {
+    for package in pkg_remove_args.packages {
+        remove_package(&package, pkg_remove_args.force, pkg_remove_args.quiet).await?;
     }
-
     Ok(())
 }
 
-fn remove_file(file_path: &str) -> Result<(), Error> {
-    if let Err(err) = std::fs::remove_file(file_path) {
-        match err.kind() {
-            ErrorKind::NotFound => {
-                println!("No such package installed as : {}", file_path);
-                std::process::exit(1);
+pub async fn remove_package(package_name: &str, force: bool, quiet: bool) -> Result<()> {
+    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = match local_config().await {
+        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
+        Err(err) => {
+            eprintln!("{}", err);
+            std::process::exit(1);
+        }
+    };
+
+    let package_toml_path = format!(
+        "{}/{}.toml",
+        remove_trailing_slash(hysp_data_dir.clone()),
+        package_name
+    );
+
+    let package_toml = read_file_content(&package_toml_path).await;
+    match package_toml {
+        Ok(package_toml) => {
+            let parsed_package_info: PackageInfo = toml::from_str(&package_toml)?;
+
+            if !quiet {
+                print_package_info(parsed_package_info.clone());
             }
-            _ => return Err(err),
+
+            let package_binary_name = parsed_package_info.bin.name;
+            let package_binary_path = format!(
+                "{}/{}",
+                remove_trailing_slash(hysp_bin_dir.clone()),
+                package_binary_name
+            );
+
+            if !force {
+                info(
+                    &format!("Removing package : {} ", package_binary_name),
+                    colored::Color::Cyan,
+                );
+                if !prompt_yn("Would you like to proceed with the transaction (y/n)? ".to_string())
+                {
+                    return Ok(());
+                }
+            }
+
+            let dependencies: Vec<String> = parsed_package_info.package.conditions.requires;
+            let dependencies_str: String = dependencies.join(", ");
+
+            if !dependencies.is_empty() {
+                info(
+                    &format!("Dependencies detected, removing : {} ", dependencies_str),
+                    colored::Color::Cyan,
+                );
+            }
+
+            for dependency in dependencies {
+                let dependent_toml_path = format!(
+                    "{}/{}.toml",
+                    remove_trailing_slash(hysp_data_dir.clone()),
+                    dependency
+                );
+
+                let dependent_package_toml = read_file_content(&dependent_toml_path).await?;
+
+                let parsed_dependent_package_info: PackageInfo =
+                    toml::from_str(&dependent_package_toml)?;
+
+                let dependent_binary_path = format!(
+                    "{}/{}",
+                    remove_trailing_slash(hysp_bin_dir.clone()),
+                    parsed_dependent_package_info.bin.name
+                );
+                remove_and_print(&dependent_binary_path);
+                remove_and_print(&dependent_toml_path);
+            }
+
+            remove_and_print(&package_binary_path);
+            remove_and_print(&package_toml_path);
+
+            Ok(())
+        }
+        Err(_e) => {
+            info(
+                &format!("No such package found as : {} ", package_toml_path),
+                colored::Color::Cyan,
+            );
+            Ok(())
         }
     }
-    Ok(())
-}
-
-pub fn remove_trailing_slash(mut path: String) -> String {
-    if path.ends_with('/') {
-        path.pop();
-    }
-    path
 }

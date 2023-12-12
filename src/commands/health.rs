@@ -1,9 +1,6 @@
-use crate::commands::remove::remove_trailing_slash;
-use crate::engine::config::read_config;
-use crate::log::{info, warn};
-use anyhow::{anyhow, Result};
-use spinoff::{spinners, Color, Spinner, Streams};
-use std::fs;
+use crate::engine::{helpers::local_config, msgx::info};
+use anyhow::{Context, Result};
+use std::os::unix::fs::PermissionsExt;
 
 enum Health {
     ExistsWithPermissions,
@@ -11,20 +8,24 @@ enum Health {
     DoesNotExist,
 }
 
+use std::fs;
+
 fn check_directory(path: &str) -> Result<Health> {
-    match fs::metadata(path) {
-        Ok(metadata) => {
-            if metadata.is_dir() {
-                if metadata.permissions().readonly() {
-                    // Check permissions
-                    return Ok(Health::ExistsWithoutPermissions);
-                } else {
-                    return Ok(Health::ExistsWithPermissions);
-                }
-            }
+    let metadata =
+        fs::metadata(path).with_context(|| format!("Failed to get metadata for {}", path))?;
+
+    if metadata.is_dir() {
+        let permissions = metadata.permissions();
+        let mode = permissions.mode();
+
+        // Check if the directory is writable and readable by root
+        if mode & 0o600 == 0o600 {
+            return Ok(Health::ExistsWithPermissions);
+        } else {
+            return Ok(Health::ExistsWithoutPermissions);
         }
-        Err(_) => return Ok(Health::DoesNotExist),
     }
+
     Ok(Health::DoesNotExist)
 }
 
@@ -32,63 +33,37 @@ async fn check_and_log_directory(dir_name: &str, dir_path: &str) -> Result<()> {
     match check_directory(dir_path)? {
         Health::ExistsWithPermissions => info(
             &format!(
-                "{} directory exists with required permissions at: {}",
+                "{} directory exists with required permissions at:  {} ",
                 dir_name, dir_path
             ),
             colored::Color::Cyan,
         ),
-        Health::ExistsWithoutPermissions => warn(
+        Health::ExistsWithoutPermissions => info(
             &format!(
-                "{} directory exists but doesn't have enough permissions at: {}",
+                "{} directory exists but doesn't have enough permissions at:   {} ",
                 dir_name, dir_path
             ),
-            colored::Color::Red,
+            colored::Color::Cyan,
         ),
-        Health::DoesNotExist => warn(
-            &format!("{} directory doesn't exist at: {}", dir_name, dir_path),
-            colored::Color::Red,
+        Health::DoesNotExist => info(
+            &format!("{} directory doesn't exist at:   {} ", dir_name, dir_path),
+            colored::Color::Cyan,
         ),
     };
     Ok(())
 }
 
 pub async fn check_health() -> Result<()> {
-    let mut spinner_pkginfo = Spinner::new_with_stream(
-        spinners::Dots,
-        "Getting config ... ",
-        Color::Green,
-        Streams::Stderr,
-    );
-    let hysp_config = read_config().await?;
-    spinner_pkginfo.stop_and_persist("Getting config  ", "Done");
+    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = match local_config().await {
+        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
+        Err(err) => {
+            eprintln!("{}", err);
+            std::process::exit(1);
+        }
+    };
 
-    let directories_to_check = [
-        (
-            "Home",
-            hysp_config
-                .local
-                .home
-                .ok_or_else(|| anyhow!("Couldn't get home directory"))?,
-        ),
-        (
-            "Binary",
-            hysp_config
-                .local
-                .bin
-                .ok_or_else(|| anyhow!("Couldn't get binary directory"))?,
-        ),
-        (
-            "Data",
-            hysp_config
-                .local
-                .data
-                .ok_or_else(|| anyhow!("Couldn't get data directory"))?,
-        ),
-    ];
+    check_and_log_directory("Hysp data", &hysp_data_dir).await?;
+    check_and_log_directory("Hysp bin", &hysp_bin_dir).await?;
 
-    for (dir_name, dir_path) in directories_to_check.iter() {
-        let cleaned_dir_path = remove_trailing_slash(dir_path.to_string_lossy().to_string());
-        check_and_log_directory(dir_name, &cleaned_dir_path).await?;
-    }
     Ok(())
 }

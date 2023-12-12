@@ -1,58 +1,73 @@
-use crate::engine::config::read_config;
-use crate::{commands::remove::remove_trailing_slash, log::info};
-use anyhow::{anyhow, Result};
+use crate::engine::args::ListArgs;
+use crate::engine::config::pkg_config_structure::PackageInfo;
+use crate::engine::helpers::{local_config, print_package_info, read_file_content};
+use crate::engine::msgx::info;
+use anyhow::{Context, Result};
 use std::fs;
+use std::path::{Path, PathBuf};
 
-pub async fn list_pkgs() -> Result<()> {
-    let hysp_config = read_config().await?;
+const TOML_EXTENSION: &str = ".toml";
 
-    let hysp_bin_dir = remove_trailing_slash(
-        hysp_config
-            .local
-            .bin
-            .ok_or_else(|| anyhow!("Couldn't get binary directory"))?
-            .to_string_lossy()
-            .to_string(),
-    );
-
-    match list_files_in_directory(&hysp_bin_dir) {
-        Ok(files) => {
-            if files.is_empty() {
-                info(
-                    &format!(
-                        "You have not installed any packages yet at : {} ",
-                        hysp_bin_dir
-                    ),
-                    colored::Color::Cyan,
-                );
-            } else {
-                info(
-                    &format!("Installed pkgs in: {} ", hysp_bin_dir),
-                    colored::Color::Cyan,
-                );
-                for file in &files {
-                    println!("{}", file);
-                }
-            }
-        }
+pub async fn list_pkgs(pkg_list_args: ListArgs) -> Result<()> {
+    let (_hysp_remote, hysp_data_dir, _hysp_bin_dir, _hysp_metadata) = match local_config().await {
+        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
         Err(err) => {
-            eprintln!("Error listing files in {}: {}", hysp_bin_dir, err);
+            eprintln!("{}", err);
+            std::process::exit(1);
+        }
+    };
+
+    let packages: Vec<(String, String)> = iterate_over_package_files(&hysp_data_dir).collect();
+
+    if packages.is_empty() {
+        info("No packages Installed via hysp", colored::Color::Red);
+    } else {
+        info("Installed packages ", colored::Color::Blue);
+        for (file_path, file_name) in packages {
+            if pkg_list_args.verbose {
+                get_package_info(&file_path).await?;
+            } else {
+                println!("{}", file_name);
+            }
         }
     }
 
     Ok(())
 }
 
-pub fn list_files_in_directory(directory: &str) -> Result<Vec<String>, std::io::Error> {
-    let entries = fs::read_dir(directory)?
-        .map(|entry_result| entry_result.map(|entry| entry.file_name().into_string()));
+fn iterate_over_package_files(file_path: &str) -> impl Iterator<Item = (String, String)> + '_ {
+    fs::read_dir(file_path)
+        .expect("Failed to read directory")
+        .filter_map(|entry| entry.ok().map(|e| e.path()))
+        .filter_map(extract_file_info)
+}
 
-    let files: Result<Vec<_>, _> = entries.flatten().collect();
+fn extract_file_info(entry: PathBuf) -> Option<(String, String)> {
+    let file_name = entry.file_name()?.to_str()?;
+    let stripped_name = Path::new(file_name).file_stem()?.to_str()?;
+    let (file_path, file_name) = if stripped_name.ends_with(TOML_EXTENSION) {
+        let file_path = entry.to_string_lossy().to_string();
+        let file_name = stripped_name
+            .strip_suffix(TOML_EXTENSION)
+            .expect("Expected TOML extension")
+            .to_string();
+        (file_path, file_name)
+    } else {
+        let file_path = entry.to_string_lossy().to_string();
+        let file_name = stripped_name.to_string();
+        (file_path, file_name)
+    };
+    Some((file_path, file_name))
+}
 
-    files.map_err(|_| {
-        std::io::Error::new(
-            std::io::ErrorKind::InvalidData,
-            "Unable to convert file name to string",
-        )
-    })
+pub async fn get_package_info(pkg_file: &str) -> Result<()> {
+    let package_toml = read_file_content(pkg_file)
+        .await
+        .context("Failed to read package file")?;
+    let parsed_package_info: PackageInfo =
+        toml::from_str(&package_toml).context("Failed to parse package TOML")?;
+
+    print_package_info(parsed_package_info);
+
+    Ok(())
 }

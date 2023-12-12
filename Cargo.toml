@@ -1,6 +1,6 @@
 [package]
 name = "hysp"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = [ "PwnWriter < hey@pwnwriter.xyz >" ]
 description = "📦 An independent package manager that every hacker deserves."
@@ -24,6 +24,8 @@ toml = "0.8.8"
 columns = "0.1.0"
 dirs = "5.0.1"
 sha2 = "0.10.8"
+futures = "0.3.29"
+async-recursion = "1.0.5"
 
 
 [profile.dev]
