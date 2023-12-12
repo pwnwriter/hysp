@@ -204,27 +204,29 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 <a name="repo"></a>
  ## Hosting custom repo 💾
 
-- Hysp provies the following configuration, which can be overwritten by defining a `config file`.
-  Default config
+- Hysp provies the following configuration, which can be overwritten by defining a `config file` in `~/.config/hysp/config.toml`
 
   ```toml
-    [source]
-    remote = "https://raw.githubusercontent.com/metis-os/hysp-pkgs/main/data/"
-    aarch = "Architecture"
+  [source]
+  remote = "https://raw.githubusercontent.com/metis-os/hysp-pkgs/main/data/x86_64"
+  metadata ="https://raw.githubusercontent.com/metis-os/hysp-pkgs/main/data/metadata.toml"
+  aarch = "Architecture"
 
-    [local]
-    home="/home/user/.local/share/hysp"
-    bin="/home/user/.local/share/hysp/bin/" 
-    data="/home/user/.local/share/hysp/data/Architecture/" 
+  [local]   
+  home="/home/user/.local/share/hysp"
+  bin="/home/user/.local/share/hysp/bin/" 
+  data="/home/user/.local/share/hysp/data/" 
+
   ```
 - Explanation 
 
 |  Name       | Description                        | Default                                            |
 |-------------|------------------------------------|----------------------------------------------------|
 |  `remote`   | Package repository                 | [***`metis-os/hysp-pkgs`***](https://github.com/metis-os/hysp-pkgs) |
+|  `metadata` | Available pkg info                 | [***`metis-os/hysp-pkgs/metadata.toml`***](https://raw.githubusercontent.com/metis-os/hysp-pkgs/main/data/metadata.toml)|
 |  `home`     | Home for `hysp`                    | ***`hysp`***                               |
 |  `bin`      | Directory to save the binaries     | ***`~/.local/share/hysp/bin`***            |
-|  `data`     | Directory to save pkg data         | ***`~/.local/share/hysp/data/Architecture`***           |
+|  `data`     | Directory to save pkg data         | ***`~/.local/share/hysp/data`***           |
 |  `aarch`    | Your system Architecture           | Only supported ***`X86_64,aarch64`***      |
 
 <details> <summary><code>🎄 Tree view of the repo </code></summary>
@@ -234,8 +236,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 .
 ├── available.toml # Storing available pkgs info (Optional)
 ├── data
-│   └── x86_64 # Your cpu Architecture (aarch64 and x86_64) supported for now
-│       └── foo.toml # where the package data are stored (needed)
+│  └── foo.toml # where the package data are stored (needed)
 ```
 
 </details>
