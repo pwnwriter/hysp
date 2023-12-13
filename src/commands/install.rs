@@ -12,14 +12,27 @@ use async_recursion::async_recursion;
 use spinoff::{spinners, Color, Spinner, Streams};
 use std::fs::remove_file;
 use std::path::Path;
+use tokio::task;
 
 pub async fn install_packages(install_pkgs: InstallArgs) -> Result<()> {
+    let mut tasks = vec![];
+
     for package_name in install_pkgs.packages.clone() {
-        let result = install_pkg(&install_pkgs, &package_name, false).await;
-        if let Err(e) = result {
-            eprint!("{}", e);
+        let install_pkgs_clone = install_pkgs.clone();
+        let task = task::spawn(async move {
+            if let Err(e) = install_pkg(&install_pkgs_clone, &package_name, false).await {
+                eprint!("{}", e);
+            }
+        });
+        tasks.push(task);
+    }
+
+    for task in tasks {
+        if let Err(e) = task.await {
+            eprintln!("Task failed: {}", e);
         }
     }
+
     Ok(())
 }
 
