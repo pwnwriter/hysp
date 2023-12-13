@@ -12,10 +12,58 @@
 
 - [`eb5c97d`](https://github.com/pwnwriter/hysp/commit/eb5c97d6c3b9e0dd78d9f910301468b3ddeadb04): One liner script for binary installation.
 
+- [`6b2c040`](https://github.com/pwnwriter/hysp/commit/6b2c0401d94b2021fc888da5226d2f8e8b90681c): Demo imgs for health // help.
+
+- [`1cb163f`](https://github.com/pwnwriter/hysp/commit/1cb163f856d5528c30e15f77583cfa4a659ce244): Use absolute path for $path ; link to repo.
+
+- [`6ffce0c`](https://github.com/pwnwriter/hysp/commit/6ffce0caaabf7f2e39da9eb05a909300cbe37b72): Fixed default data location [closes #11].
+
+- [`8b86568`](https://github.com/pwnwriter/hysp/commit/8b865680580edbd51386e1359e1b3efc102129de): Added key features lable ; links to upstream sources.
+
+- [`07de8ef`](https://github.com/pwnwriter/hysp/commit/07de8ef23fd9a4d512b0443685126d4e8a911395): Added features in tables; store links inside security stuffs.
+
+- [`1f7a006`](https://github.com/pwnwriter/hysp/commit/1f7a006dd97d9cb6d10a84423101ddae31cbef5d): Ask if the package already available/exist or not.
+
+- [`b22aae7`](https://github.com/pwnwriter/hysp/commit/b22aae778f9630ef7873cf7252cb371a2b06852b): Removed pkg-req temp (redirect to hysp-pkgs).
+
+- [`4821ddf`](https://github.com/pwnwriter/hysp/commit/4821ddf72868a48e987fe75f299db3a1a588c36a): Bump colored from 2.0.4 to 2.1.0.
+
+- [`6af2037`](https://github.com/pwnwriter/hysp/commit/6af20374bfa0f02a9fc347d42d2c88f3dcb7b707): Bump tokio from 1.34.0 to 1.35.0.
+
+- [`7836b9a`](https://github.com/pwnwriter/hysp/commit/7836b9ab7dd1049dcbec5a2416e7e43fa30f41a3): Bump clap from 4.4.8 to 4.4.11.
+
+- [`b42a889`](https://github.com/pwnwriter/hysp/commit/b42a889180a0045184832590bdf4cb334bd36126): Removed aarchitecure info for new version update.
+
+- [`e3e0b22`](https://github.com/pwnwriter/hysp/commit/e3e0b22951e008c4ab31ca09acfc2199a9f9dbcd): Removed unused dependencies.
+
+- [`a87df67`](https://github.com/pwnwriter/hysp/commit/a87df67d452a196956bea91355c4922a6ed73114): Test install, health commands via ci/cd.
+
+- [`45d79d1`](https://github.com/pwnwriter/hysp/commit/45d79d179b9e81b9ecd6d498a934096c32fdd465): Use different names for test ci workflows.
+
+- [`779e63c`](https://github.com/pwnwriter/hysp/commit/779e63c5033f29e16968bb63ed00a92f482de05b): Show pkgs only of current system aarch.
+
+- [`0d06726`](https://github.com/pwnwriter/hysp/commit/0d067269997b57875aa15cdd05db65e193082a70): Show log info if path doesn't exist.
+
+- [`1ae5b46`](https://github.com/pwnwriter/hysp/commit/1ae5b468eb448e23fa85e2e0943cc6691adb8c15): Install pkgs in force mode.
+
+- [`a4599e8`](https://github.com/pwnwriter/hysp/commit/a4599e8f66505ccb2081cdfdb281498f900a06e9): Remove pkgs in force mode.
+
+- [`cfc74b9`](https://github.com/pwnwriter/hysp/commit/cfc74b9ee456f94d003bf3db975fb58549ee6d90): Fixed local config args // removed unused docx.
+
+
+## ✨Refactor
+
+- [`7616115`](https://github.com/pwnwriter/hysp/commit/76161152ef6c32d535ab6a92686fe7f65f0bee70): Use git-cliff to generate release docs.
+
 
 ## 🌈 Beautify
 
 - [`f68ba68`](https://github.com/pwnwriter/hysp/commit/f68ba68d0bcf6cc026bfff11ac35cdaeb258a03e): Show binary path before removing.
+
+
+## 🐶Performance
+
+- [`3e245e1`](https://github.com/pwnwriter/hysp/commit/3e245e1dc9945e3279feb4fc03e639a6473a2319): Use tokio task for concurrent pkg install.
 
 
 ## 🦁Features
@@ -23,6 +71,16 @@
 - [`ea5fcda`](https://github.com/pwnwriter/hysp/commit/ea5fcda4c9960161f19d22e8b8a71268a8645ba9): Subcommand to check for local config health.
 
 - [`d0b2f3b`](https://github.com/pwnwriter/hysp/commit/d0b2f3b420ad0ef8a702e3c9818b2fef09ddce8b): Subcommand to check for local config health [closes #6].
+
+- [`dcc448b`](https://github.com/pwnwriter/hysp/commit/dcc448b0eabe3ba3ce16b6814161f0d0ca4089d2): Use issue templates // labels to track and submit new issues.
+
+- [`2daaa4a`](https://github.com/pwnwriter/hysp/commit/2daaa4abf7de2e1b12f6d852a5a78bd119d0ad69): Handle dependencies, seprated code structur via helper modules.
+
+- [`6bdbf5a`](https://github.com/pwnwriter/hysp/commit/6bdbf5ad7ffe0d3b6d1d5b2d54460e2320a2be57): Argument to list available,queries; check hysp health and cmd via ci/cd.
+
+- [`e82f64f`](https://github.com/pwnwriter/hysp/commit/e82f64f6e188dc812362433094370d72b7cb2040): Check for binary directory in path.
+
+- [`eae0d6f`](https://github.com/pwnwriter/hysp/commit/eae0d6f6ed013c3b864964f7ef81848d161e691f): New commands usages and fixes.
 
 
 ## ☃️ Miscellaneous Tasks
