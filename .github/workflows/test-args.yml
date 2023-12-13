@@ -39,8 +39,7 @@ jobs:
 
       - name: Check hysp install arg
         run: |
-          hysp health
-          hysp install -p hxn kanha aix nuclei 
+          hysp install -p hxn kanha aix nuclei  --force
           hysp health
 
 
