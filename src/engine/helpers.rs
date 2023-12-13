@@ -365,11 +365,6 @@ pub fn is_pkg_installed(pkg_name: &str) -> bool {
 ///
 /// * `file_path` - A string slice representing the path of the file to be removed.
 ///
-/// Example usage:
-///
-/// ```rust
-/// remove_and_print("path/to/file");
-/// ```
 #[inline]
 pub fn remove_and_print(file_path: &str) {
     if let Err(err) = fs::remove_file(file_path) {

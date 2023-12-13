@@ -195,19 +195,20 @@ mod tests {
 
     #[tokio::test]
     async fn test_directories_exist() {
-        let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = match local_config().await
-        {
-            Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
-            Err(err) => {
-                eprintln!("{}", err);
-                std::process::exit(1)
-            }
-        };
+        let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
+            match local_config().await {
+                Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                    (remote, data_dir, bin_dir, metadata, architecture)
+                }
+                Err(err) => {
+                    eprintln!("{}", err);
+                    std::process::exit(1)
+                }
+            };
 
         create_directory_if_not_exists(&hysp_data_dir);
         create_directory_if_not_exists(&hysp_bin_dir);
 
-        // Check if the directories exist after creation
         assert!(std::path::Path::new(&hysp_data_dir).exists());
         assert!(std::path::Path::new(&hysp_bin_dir).exists());
     }
