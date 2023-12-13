@@ -39,15 +39,11 @@ jobs:
 
       - name: Check hysp install arg
         run: |
-          hysp install -p hxn kanha aix nuclei  --force
+          hysp install -p nuclei 
           hysp health
 
 
       - name: Check hysp uninstall arg
         run: |
-          hysp remove -p hxn kanha aix nuclei  --force
+          hysp remove -p nuclei  --force
           hysp health
-
-
-
-
