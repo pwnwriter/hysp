@@ -18,14 +18,13 @@ spinoff = { version = "0.8.0", features = ["dots", "arc", "line"] }
 clap = { version = "4.4.11", features = ["string", "derive"] }
 serde = { version = "1.0.193", features = ["derive"] }
 tokio = { version = "1.35.0", features = ["full"] }
+async-recursion = "1.0.5"
 anyhow = "1.0.75"
 colored = "2.1.0"
 toml = "0.8.8"
 columns = "0.1.0"
 dirs = "5.0.1"
 sha2 = "0.10.8"
-futures = "0.3.29"
-async-recursion = "1.0.5"
 
 
 [profile.dev]
