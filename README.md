@@ -12,7 +12,7 @@
         <img src="https://img.shields.io/crates/v/hysp?style=flat&labelColor=b4befe&color=eba0ac&logo=Rust&logoColor=white">
     </a>
     <a href="https://github.com/pwnwriter/hysp/actions?query=workflow%3A%22Continuous+Deployment%22">
-        <img src="https://img.shields.io/github/actions/workflow/status/pwnwriter/hysp/test-app.yml?style=flat&labelColor=eba0ac&color=74c7ec&label=Test-app&logo=GitHub%20Actions&logoColor=white">
+        <img src="https://img.shields.io/github/actions/workflow/status/pwnwriter/hysp/build-app.yml?style=flat&labelColor=eba0ac&color=74c7ec&label=check-hysp&logo=GitHub%20Actions&logoColor=white">
     </a>
   <a href="https://github.com/pwnwriter/hysp/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-white.svg" alt="MIT LICENSE"></a>
   <br>
@@ -75,6 +75,16 @@ Check these `HackerNews Discussions`
 
 <a name="installation"></a>
  ## Installation 📩
+
+###### 🐤 From source
+
+  ```bash
+  git clone --depth=1 https://github.com/pwnwriter/hysp --branch=main
+  cd hysp
+  cargo build --release 
+  ```
+  Then go to `release` dir and `./hysp` or move the `binary` to your any `$PATH` for instant access from anywhere.
+
     
   <details> <summary><code>🪄 Binary </code></summary>
     &nbsp;
@@ -84,21 +94,12 @@ Check these `HackerNews Discussions`
    ```bash
 wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/latest" | jq -r '.assets[].browser_download_url' | grep -Ei "$(uname -m).*$(uname -s).*musl" | grep -v "\.sha")" | tar -xzf - --strip-components=1
 ./hysp -h
-``` 
-
-  </details>
-  <details> <summary><code>🌼 Source </code></summary>
-  &nbsp;
- 
-  ```bash
-  git clone --depth=1 https://github.com/pwnwriter/hysp --branch=main
-  cd hysp
-  cargo build --release 
-  ```
-  Then go to `release` dir and `./hysp` or move the `binary` to your any `$PATH` for instant access from anywhere.
+```
 </details>
 
-<details> <summary><code>🎠 Cargo </code></summary>
+
+<details> <summary><code>💮 using Cargo </code></summary>
+&nbsp;
 
 - Using [crates.io](https://crates.io/crates/hysp)
   ```bash
@@ -109,8 +110,9 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
   cargo binstall hysp
   ```
 
-  > **Note** ⚠️
-  > This requires a working setup of rust/cargo & binstall.
+    > **NOTE:**
+    > This requires a working setup of rust/cargo & binstall.
+
 </details>
 
 <details> <summary><code>🚩 METIS Linux </code></summary>
@@ -137,69 +139,81 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
  
 ***Firstly, if you intend to access the binaries installed via `hysp` over the system, you may want to...***
 
-<details> <summary><code>🏵️ Setup path for hysp bin  </code></summary>
+ ##### Setup path for hysp bin
  
 -  Add the following line to your shellrc. [ `zshrc`, `bashrc` ***etc***. ]
 
     ```bash
     export PATH="$HOME/.local/share/hysp/bin/:$PATH"
     ```
-</details>
  
-<details> <summary><code>🐤 Help menu</code></summary>
+<details> <summary><code>Help menu</code></summary>
   &nbsp;
   
   
   ```bash
   hysp |install|uninstall|search| -h # check for help menu
   ```
-![screenshot_2023-11-28_13-45-12](https://github.com/pwnwriter/hysp/assets/90331517/ef21f487-961e-4cf9-b87d-1690380dff6a)
+
+![screenshot_2023-12-13_19-51-00](https://github.com/pwnwriter/hysp/assets/90331517/01f15c0b-6b73-4e7c-ae74-5d010bef10f9)
 
 </details>
 
-<details> <summary><code>🔻 Installing a pkg </code></summary>
+<details> <summary><code>Installing packages </code></summary>
 &nbsp;
   
   ```bash
-  hysp install -p <pkg> # use --force to overwrite already installed binary 
+  hysp install -p <foo,bar,buzz> # use --force to overwrite already installed binary, --quiet to supress console io
   ```
-  ![screenshot_2023-11-25_22-38-24](https://github.com/pwnwriter/hysp/assets/90331517/f55756b6-b115-4bdf-859f-330f1805c169)
+![screenshot_2023-12-13_19-55-36](https://github.com/pwnwriter/hysp/assets/90331517/79ce202a-23a4-4086-bd47-66edd0718345)
 
 </details>
 
 
-<details> <summary><code>🧁 Removing a pkg </code></summary>
+<details> <summary><code>Removing packages </code></summary>
 &nbsp;
   
   ```bash
-  hysp remove -p <pkg> 
+  hysp remove -p <foo,bar,buzz> 
   ```
 
-![screenshot_2023-11-27_18-56-49](https://github.com/pwnwriter/hysp/assets/90331517/e468c329-eb08-4b08-8c06-6a0e56756ee5)
+![screenshot_2023-12-13_19-57-26](https://github.com/pwnwriter/hysp/assets/90331517/84841cf4-0693-4cbf-a2cc-b46869596b94)
 
 </details>
 
-<details> <summary><code>🔭 Search for available pkgs </code></summary>
+<details> <summary><code>Search for available pkgs </code></summary>
 &nbsp;
   
   ```bash
-  hysp search -p <pkg> # use --silent to strip down the console i/o
+  hysp search -p <pkg> 
   ```
 
-![screenshot_2023-11-26_14-24-57](https://github.com/pwnwriter/hysp/assets/90331517/19a837c4-45cf-4043-86ac-b83cf780c487)
+- Raw mode (default)
+
+![screenshot_2023-12-13_19-58-22](https://github.com/pwnwriter/hysp/assets/90331517/c72bfd75-b246-4b9d-82b9-0c11e399c947)
+
+- Database mode
+
+![screenshot_2023-12-13_19-59-55](https://github.com/pwnwriter/hysp/assets/90331517/66e1a7f2-9815-41c2-8da5-8e0144789d38)
+
+- Fuzzy mode
+
+![screenshot_2023-12-13_20-00-34](https://github.com/pwnwriter/hysp/assets/90331517/0404c9d9-2049-459e-b09d-253dfbe30a4d)
 
 </details>
 
-<details> <summary><code>⚕️ Checking configuration health </code></summary>
+<details> <summary><code>Checking configuration health </code></summary>
 &nbsp;
   
   ```bash
  hysp health
   ```
 
-![screenshot_2023-11-28_13-51-37](https://github.com/pwnwriter/hysp/assets/90331517/27d78886-2e3f-4396-8b73-a9a26facad41)
+![screenshot_2023-12-13_20-01-34](https://github.com/pwnwriter/hysp/assets/90331517/2375116f-bda1-4dd9-96f9-48f04fa8bc47)
 
 </details>
+
+##### Numerous other options exist. Consider installing Hysp and checking it out, wouldn't you?
 
 <a name="repo"></a>
  ## Hosting custom repo 💾
@@ -240,8 +254,6 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 ```
 
 </details>
-
-
 
 
 <details> <summary><code>📂 Sample pkg </code></summary>
