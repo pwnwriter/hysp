@@ -1,4 +1,4 @@
-name: Rust
+name: build and test app
 
 on:
   push:
@@ -31,6 +31,4 @@ jobs:
       - name: Build
         run: |
           cargo build --verbose
-          ./target/release/hysp install -p hxn kanha 
-          ./target/release/hysp health
 

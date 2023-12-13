@@ -20,6 +20,7 @@ pub async fn exec() {
         }
 
         CommandChoice::List(pkg_list_args) => commands::list::list_pkgs(pkg_list_args).await,
+        CommandChoice::Query(pkg_query_args) => commands::query::query_info(pkg_query_args).await,
         CommandChoice::Health => commands::health::check_health().await,
     };
 

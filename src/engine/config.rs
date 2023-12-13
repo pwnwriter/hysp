@@ -185,8 +185,8 @@ pub async fn parse_metadata_info(metadata_url: &str) -> Result<MetadataInfo> {
 
     let response = client.get(metadata_url).send().await?;
     let body = response.text().await?;
-    let parsed_package_info: MetadataInfo = toml::from_str(&body)?;
-    Ok(parsed_package_info)
+    let parsed_metadata_info: MetadataInfo = toml::from_str(&body)?;
+    Ok(parsed_metadata_info)
 }
 
 #[cfg(test)]

@@ -1,6 +1,7 @@
 pub mod health;
 pub mod install;
 pub mod list;
+pub mod query;
 pub mod remove;
 pub mod search;
 

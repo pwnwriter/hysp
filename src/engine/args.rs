@@ -36,6 +36,10 @@ pub enum CommandChoice {
     /// Check configuration health
     #[clap(name = "health", visible_alias = "h")]
     Health,
+
+    /// Misc queries and helpers
+    #[clap(name = "query", visible_alias = "q")]
+    Query(QueryArgs),
 }
 
 #[derive(Args, Clone)]
@@ -102,8 +106,29 @@ pub enum Modes {
 }
 
 #[derive(Args, Clone)]
+#[command(arg_required_else_help = true)]
 pub struct ListArgs {
+    /// Print all available packages
+    #[arg(long, required = false, conflicts_with = "installed")]
+    pub available: bool,
+
+    /// Print all installed packages
+    #[arg(long, required = false)]
+    pub installed: bool,
+
     /// Verbose print the package information
     #[arg(long, required = false)]
     pub verbose: bool,
+}
+
+#[derive(Args, Clone)]
+#[command(arg_required_else_help = true)]
+pub struct QueryArgs {
+    /// Print default hysp config
+    #[arg(long, required = false)]
+    pub print_default_config: bool,
+
+    /// Print example package toml
+    #[arg(long, required = false)]
+    pub print_example_package: bool,
 }
