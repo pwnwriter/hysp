@@ -42,7 +42,16 @@ pub async fn install_pkg(
     package_name: &str,
     is_dependency: bool,
 ) -> Result<()> {
-    let (hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = local_config().await?;
+    let (hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
 
     create_directory_if_not_exists(&hysp_bin_dir);
     create_directory_if_not_exists(&hysp_data_dir);

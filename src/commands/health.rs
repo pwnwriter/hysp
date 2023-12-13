@@ -54,13 +54,16 @@ async fn check_and_log_directory(dir_name: &str, dir_path: &str) -> Result<()> {
 }
 
 pub async fn check_health() -> Result<()> {
-    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = match local_config().await {
-        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
-        Err(err) => {
-            eprintln!("{}", err);
-            std::process::exit(1);
-        }
-    };
+    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
 
     check_and_log_directory("Hysp data", &hysp_data_dir).await?;
     check_and_log_directory("Hysp bin", &hysp_bin_dir).await?;

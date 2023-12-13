@@ -242,7 +242,7 @@ pub fn print_metadata_package_info(metadatainfo: MetadataInfo, package_name: &st
 /// binary directory, and metadata link, or an error.
 ///
 #[inline]
-pub async fn local_config() -> Result<(String, String, String, String)> {
+pub async fn local_config() -> Result<(String, String, String, String, String)> {
     let hysp_config = parse_local_config().await?;
 
     let hysp_remote = remove_trailing_slash(
@@ -279,7 +279,19 @@ pub async fn local_config() -> Result<(String, String, String, String)> {
             .to_string(),
     );
 
-    Ok((hysp_remote, hysp_data_dir, hysp_bin_dir, hysp_metadata))
+    let system_arch = hysp_config
+        .source
+        .aarch
+        .ok_or_else(|| anyhow!("Couldn't get aarch"))?
+        .to_string();
+
+    Ok((
+        hysp_remote,
+        hysp_data_dir,
+        hysp_bin_dir,
+        hysp_metadata,
+        system_arch,
+    ))
 }
 
 /// Creates a directory at the specified path if it does not already exist.

@@ -17,13 +17,16 @@ pub async fn remove_pkgs(pkg_remove_args: RemoveArgs) -> Result<()> {
 }
 
 pub async fn remove_package(package_name: &str, force: bool, quiet: bool) -> Result<()> {
-    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata) = match local_config().await {
-        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
-        Err(err) => {
-            eprintln!("{}", err);
-            std::process::exit(1);
-        }
-    };
+    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
 
     let package_toml_path = format!(
         "{}/{}.toml",

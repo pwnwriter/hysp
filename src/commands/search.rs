@@ -15,13 +15,16 @@ use reqwest::StatusCode;
 use spinoff::{spinners, Color, Spinner, Streams};
 
 pub async fn search_pkgs(pkg_search_args: SearchArgs) -> Result<()> {
-    let (hysp_remote, _hysp_data_dir, _hysp_bin_dir, hysp_metadata) = match local_config().await {
-        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
-        Err(err) => {
-            eprintln!("{}", err);
-            std::process::exit(1);
-        }
-    };
+    let (hysp_remote, _hysp_data_dir, _hysp_bin_dir, hysp_metadata, _architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
 
     let package_name = pkg_search_args.package;
     let limit = pkg_search_args.limit;

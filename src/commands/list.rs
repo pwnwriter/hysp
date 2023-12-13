@@ -12,17 +12,20 @@ use std::path::{Path, PathBuf};
 const TOML_EXTENSION: &str = ".toml";
 
 pub async fn list_pkgs(pkg_list_args: ListArgs) -> Result<()> {
-    let (_hysp_remote, hysp_data_dir, _hysp_bin_dir, hysp_metadata) = match local_config().await {
-        Ok((remote, data_dir, bin_dir, metadata)) => (remote, data_dir, bin_dir, metadata),
-        Err(err) => {
-            eprintln!("{}", err);
-            std::process::exit(1);
-        }
-    };
+    let (_hysp_remote, hysp_data_dir, _hysp_bin_dir, hysp_metadata, architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
 
     match (pkg_list_args.available, pkg_list_args.installed) {
         (true, false) => {
-            print_available_pkg(&hysp_metadata, pkg_list_args.verbose).await?;
+            print_available_pkg(&hysp_metadata, pkg_list_args.verbose, architecture).await?;
         }
         (false, true) => {
             print_installed_pkgs(&hysp_data_dir, pkg_list_args.verbose).await?;
@@ -35,7 +38,11 @@ pub async fn list_pkgs(pkg_list_args: ListArgs) -> Result<()> {
     Ok(())
 }
 
-async fn print_available_pkg(metadata_toml: &str, verbose: bool) -> Result<(), anyhow::Error> {
+async fn print_available_pkg(
+    metadata_toml: &str,
+    verbose: bool,
+    architecture: String,
+) -> Result<(), anyhow::Error> {
     let metadata_toml_info = parse_metadata_info(metadata_toml).await?;
     info("Available packages in metadata", colored::Color::Green);
     if verbose {
@@ -44,7 +51,10 @@ async fn print_available_pkg(metadata_toml: &str, verbose: bool) -> Result<(), a
         }
     } else {
         for package in metadata_toml_info.packages {
-            println!("{}", package.name);
+            let package_arch = package.architecture.clone();
+            if package_arch == architecture {
+                println!("{} ", package.name);
+            }
         }
     }
 
