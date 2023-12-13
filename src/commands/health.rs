@@ -1,5 +1,6 @@
 use crate::engine::{helpers::local_config, msgx::info};
-use anyhow::{Context, Result};
+use anyhow::Result;
+use std::fs;
 use std::os::unix::fs::PermissionsExt;
 
 enum Health {
@@ -8,27 +9,38 @@ enum Health {
     DoesNotExist,
 }
 
-use std::fs;
-
 fn check_directory(path: &str) -> Result<Health> {
-    let metadata =
-        fs::metadata(path).with_context(|| format!("Failed to get metadata for {}", path))?;
+    match fs::metadata(path) {
+        Ok(metadata) => {
+            if metadata.is_dir() {
+                let permissions = metadata.permissions();
+                let mode = permissions.mode();
 
-    if metadata.is_dir() {
-        let permissions = metadata.permissions();
-        let mode = permissions.mode();
-
-        // Check if the directory is writable and readable by root
-        if mode & 0o600 == 0o600 {
-            return Ok(Health::ExistsWithPermissions);
-        } else {
-            return Ok(Health::ExistsWithoutPermissions);
+                if mode & 0o600 == 0o600 {
+                    return Ok(Health::ExistsWithPermissions);
+                } else {
+                    return Ok(Health::ExistsWithoutPermissions);
+                }
+            } else {
+                Err(anyhow::anyhow!(
+                    "Path exists but is not a directory: {}",
+                    path
+                ))
+            }
+        }
+        Err(e) => {
+            if let std::io::ErrorKind::NotFound = e.kind() {
+                info(
+                    &format!("Path doesn't exist: {}", path),
+                    colored::Color::Cyan,
+                );
+                return Ok(Health::DoesNotExist);
+            } else {
+                return Err(e.into()); 
+            }
         }
     }
-
-    Ok(Health::DoesNotExist)
 }
-
 async fn check_and_log_directory(dir_name: &str, dir_path: &str) -> Result<()> {
     match check_directory(dir_path)? {
         Health::ExistsWithPermissions => info(
@@ -43,11 +55,11 @@ async fn check_and_log_directory(dir_name: &str, dir_path: &str) -> Result<()> {
                 "{} directory exists but doesn't have enough permissions at:   {} ",
                 dir_name, dir_path
             ),
-            colored::Color::Cyan,
+            colored::Color::Red,
         ),
         Health::DoesNotExist => info(
             &format!("{} directory doesn't exist at:   {} ", dir_name, dir_path),
-            colored::Color::Cyan,
+            colored::Color::BrightRed,
         ),
     };
     Ok(())
