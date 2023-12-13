@@ -45,7 +45,7 @@ jobs:
 
       - name: Check hysp uninstall arg
         run: |
-          hysp remove -p hxn kanha aix nuclei 
+          hysp remove -p hxn kanha aix nuclei  --force
           hysp health
 
 
