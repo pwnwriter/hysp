@@ -1,12 +1,44 @@
 use crate::engine::{helpers::local_config, msgx::info};
 use anyhow::Result;
+use std::env;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
+use std::path::Path;
 
 enum Health {
     ExistsWithPermissions,
     ExistsWithoutPermissions,
     DoesNotExist,
+}
+
+pub async fn check_health() -> Result<()> {
+    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
+        match local_config().await {
+            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
+                (remote, data_dir, bin_dir, metadata, architecture)
+            }
+            Err(err) => {
+                eprintln!("{}", err);
+                std::process::exit(1);
+            }
+        };
+
+    check_and_log_directory("Hysp data", &hysp_data_dir).await?;
+    check_and_log_directory("Hysp bin", &hysp_bin_dir).await?;
+
+    if is_directory_in_path(&hysp_bin_dir) {
+        info(
+            &format!("Hysp bin directory {}: is in PATH", hysp_bin_dir),
+            colored::Color::BrightBlue,
+        );
+    } else {
+        info(
+            &format!("Hysp bin directory {}: isn't in PATH", hysp_bin_dir),
+            colored::Color::Red,
+        );
+    }
+
+    Ok(())
 }
 
 fn check_directory(path: &str) -> Result<Health> {
@@ -36,7 +68,7 @@ fn check_directory(path: &str) -> Result<Health> {
                 );
                 return Ok(Health::DoesNotExist);
             } else {
-                return Err(e.into()); 
+                return Err(e.into());
             }
         }
     }
@@ -65,20 +97,18 @@ async fn check_and_log_directory(dir_name: &str, dir_path: &str) -> Result<()> {
     Ok(())
 }
 
-pub async fn check_health() -> Result<()> {
-    let (_hysp_remote, hysp_data_dir, hysp_bin_dir, _hysp_metadata, _architecture) =
-        match local_config().await {
-            Ok((remote, data_dir, bin_dir, metadata, architecture)) => {
-                (remote, data_dir, bin_dir, metadata, architecture)
-            }
-            Err(err) => {
-                eprintln!("{}", err);
-                std::process::exit(1);
-            }
-        };
+fn is_directory_in_path(directory: &str) -> bool {
+    if let Some(paths) = env::var_os("PATH") {
+        if let Some(paths_str) = paths.to_str() {
+            let path_list: Vec<&str> = paths_str.split(':').collect();
+            let dir_path = Path::new(directory);
 
-    check_and_log_directory("Hysp data", &hysp_data_dir).await?;
-    check_and_log_directory("Hysp bin", &hysp_bin_dir).await?;
-
-    Ok(())
+            for path in path_list {
+                if Path::new(path) == dir_path {
+                    return true;
+                }
+            }
+        }
+    }
+    false
 }
