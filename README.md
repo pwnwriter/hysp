@@ -144,7 +144,7 @@ wget -qO- "$(curl -qfsSL "https://api.github.com/repos/pwnwriter/hysp/releases/l
 -  Add the following line to your shellrc. [ `zshrc`, `bashrc` ***etc***. ]
 
     ```bash
-    export PATH="$HOME/.local/share/hysp/bin/:$PATH"
+    export PATH="$HOME/.local/share/hysp/bin/:$PATH" # While using default config, else use your own path to bin
     ```
  
 <details> <summary><code>Help menu</code></summary>
