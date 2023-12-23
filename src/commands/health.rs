@@ -49,9 +49,9 @@ fn check_directory(path: &str) -> Result<Health> {
                 let mode = permissions.mode();
 
                 if mode & 0o600 == 0o600 {
-                    return Ok(Health::ExistsWithPermissions);
+                    Ok(Health::ExistsWithPermissions)
                 } else {
-                    return Ok(Health::ExistsWithoutPermissions);
+                    Ok(Health::ExistsWithoutPermissions)
                 }
             } else {
                 Err(anyhow::anyhow!(
@@ -66,9 +66,9 @@ fn check_directory(path: &str) -> Result<Health> {
                     &format!("Path doesn't exist: {}", path),
                     colored::Color::Cyan,
                 );
-                return Ok(Health::DoesNotExist);
+                Ok(Health::DoesNotExist)
             } else {
-                return Err(e.into());
+                Err(e.into())
             }
         }
     }
