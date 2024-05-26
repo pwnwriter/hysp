@@ -1,3 +1,11 @@
+_**This project has been archived and is no longer maintained.**_
+
+WHY? 
+
+_I recently started university and am currently busy with my personal work.
+Additionally, I've begun using `nix`, and this project was initially a way for me to learn about package managers and their internals. Therefore, I am archiving this project and do not recommend anyone use it. However, feel free to borrow any parts of it for your own projects if you find them inspiring._
+
+
 <p align="center">
     <a href="https://youtu.be/IOOzoeC-ZRQ?si=118OtD9c8u1Tr7JF">
         <img src="https://raw.githubusercontent.com/pwnwriter/hysp/images/hysp-rounded.png" width="400"></a>
