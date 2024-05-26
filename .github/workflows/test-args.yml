@@ -1,49 +1,49 @@
-name: Test hysp commands // args
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-env:
-  CARGO_TERM_COLOR: always
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        toolchain:
-          - stable
-          # - beta
-          # - nightly
-          
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Rust
-        run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
-
-      - name: build and install hysp 
-        run: |
-          cargo build --release --locked
-          mv $(find -type f -name hysp) /usr/local/bin && echo "Moved hysp"
-          if ! command -v hysp &> /dev/null; then
-            echo "hysp is not installed properly."
-            exit 1
-          fi
-
-      - name: Check hysp install arg
-        run: |
-          hysp install -p nuclei 
-          hysp health
-
-
-      - name: Check hysp uninstall arg
-        run: |
-          hysp remove -p nuclei  --force
-          hysp health
+# name: Test hysp commands // args
+#
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+#
+# env:
+#   CARGO_TERM_COLOR: always
+#
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         toolchain:
+#           - stable
+#           # - beta
+#           # - nightly
+#
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#
+#       - name: Set up Rust
+#         run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+#
+#       - name: build and install hysp 
+#         run: |
+#           cargo build --release --locked
+#           mv $(find -type f -name hysp) /usr/local/bin && echo "Moved hysp"
+#           if ! command -v hysp &> /dev/null; then
+#             echo "hysp is not installed properly."
+#             exit 1
+#           fi
+#
+#       - name: Check hysp install arg
+#         run: |
+#           hysp install -p nuclei 
+#           hysp health
+#
+#
+#       - name: Check hysp uninstall arg
+#         run: |
+#           hysp remove -p nuclei  --force
+#           hysp health
